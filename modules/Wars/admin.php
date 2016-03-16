@@ -104,7 +104,7 @@ function match(){
     global $nuked, $user, $language;
 
     if(array_key_exists('war_id', $_REQUEST)){
-        $war_id = $_REQUEST['war_id'];
+        $war_id = (int) $_REQUEST['war_id'];
     }
     else{
         $war_id = '';
@@ -120,7 +120,7 @@ function match(){
         $score_team = explode('|', $score_team);
         $score_adv = explode('|', $score_adv);
         $nbr = count($mapList);
-        $_REQUEST['game'] = $game;
+        $_REQUEST['game'] = (int) $game;
         $adminTitle = _EDITTHISMATCH;
     }
 
@@ -165,11 +165,22 @@ function match(){
         $checked2 = "selected=\"selected\"";
     }
 
-    if ($_REQUEST['do'] == "add" && !isset($_REQUEST['nbr']) && !isset($_REQUEST['game'])){
-        echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add\">\n"
+    if ($_REQUEST['do'] == "add" && !isset($_REQUEST['nbr']) && !isset($_REQUEST['game']) && ! ctype_digit($_REQUEST['nbr'])){
+        echo '<script type="text/javascript">
+        function checkAddMatch(){
+            if(! document.getElementById(\'matchNbMap\').value.match(/^\d+$/)){
+                alert(\''. _NB_MAP_NO_INTEGER .'\');
+                return false;
+            }
+
+            return true;
+        }
+        </script>';
+
+        echo "<form onsubmit=\"return checkAddMatch()\" method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
                 . "<tr><td align=\"center\"><b>" . _NOMBRE . " :</b><br/></td></tr>\n"
-                . "<tr><td align=\"center\"><input type=\"text\" name=\"nbr\" maxlength=\"2\" size=\"10\" value=\"0\" /></td></tr>\n"
+                . "<tr><td align=\"center\"><input id=\"matchNbMap\" type=\"text\" name=\"nbr\" maxlength=\"2\" size=\"10\" value=\"0\" /></td></tr>\n"
                 . "<tr><td align=\"center\"><b>" . _GAME . " : </b><select name=\"game\">\n";
 
         $sql3 = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
@@ -193,7 +204,53 @@ function match(){
         return;
     }
 
-    echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=" . $action . "\" enctype=\"multipart/form-data\">\n"
+    echo '<script type="text/javascript">
+    function checkAddMatch(){
+        matchDay = ("0" + document.getElementById(\'matchDay\').value).slice(-2);
+        matchMonth = ("0" + document.getElementById(\'matchMonth\').value).slice(-2);
+        matchYear = document.getElementById(\'matchYear\').value;
+        matchDate = matchMonth + \'-\' + matchDay + \'-\' + matchYear;
+
+        if (matchDate != "" && ! checkDateValue(\'english\', matchDate, \'-\')){
+            alert(\''. _BADDATE .'\');
+            return false;
+        }
+
+        matchHour = document.getElementById(\'matchHour\').value;
+
+        if (matchHour != "" && ! checkTimeValue(matchHour)){
+            alert(\''. _BADTIME .'\');
+            return false;
+        }
+
+        if(document.getElementById(\'matchOpponent\').value.length == 0){
+            alert(\''. _NO_OPPONENT .'\');
+            return false;
+        }
+
+        // TODO : Check type ?
+        // TODO : Check style ?
+        ';
+
+    for ($i = 1; $i <= $nbr; $i++) {
+            echo '
+        if(! document.getElementById(\'matchTeamScore'. $i .'\').value.match(/^\d+$/)){
+            alert(\''. sprintf(_TEAM_SCORE_NO_INTEGER, $i) .'\');
+            return false;
+        }
+        if(! document.getElementById(\'matchOpponentScore'. $i .'\').value.match(/^\d+$/)){
+            alert(\''. sprintf(_TEAM_OPPONENT_NO_INTEGER, $i) .'\');
+            return false;
+        }
+        ';
+    }
+
+    echo '
+        return true;
+    }
+    </script>';
+
+    echo "<form onsubmit=\"return checkAddMatch()\" method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=" . $action . "\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
             . "<tr><td align=\"center\"><b>" . _STATUS . " :</b> <select name=\"etat\">\n"
             . "<option value=\"1\" " . $checked1 . ">" . _FINISH . "</option>\n"
@@ -214,7 +271,7 @@ function match(){
         echo "<option value=\"" . $cid . "\" " . $checked3 . ">" . $titre . "</option>\n";
     }
 
-    echo "</select></td></tr><tr><td align=\"center\"><b>" . _DATE . " : </b><select name=\"jour\">\n";
+    echo "</select></td></tr><tr><td align=\"center\"><b>" . _DATE . " : </b><select id=\"matchDay\" name=\"jour\">\n";
 
     $day = 1;
     while ($day < 32){
@@ -230,7 +287,7 @@ function match(){
         $day++;
     }
 
-    echo "</select>&nbsp;<select name=\"mois\">";
+    echo "</select>&nbsp;<select id=\"matchMonth\" name=\"mois\">";
 
     $month = 1;
     while ($month < 13){
@@ -246,7 +303,7 @@ function match(){
         $month++;
     }
 
-    echo"</select>&nbsp;<select name=\"annee\">";
+    echo"</select>&nbsp;<select id=\"matchYear\" name=\"annee\">";
 
     if ($_REQUEST['do'] == "edit"){
         $prevprevprevyear = $an - 3;
@@ -277,12 +334,12 @@ function match(){
 
     echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
             . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
-            . "</select>&nbsp;&nbsp;<b>" . _HOUR . " :</b> <input type=\"text\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr></table>\n"
+            . "</select>&nbsp;&nbsp;<b>" . _HOUR . " :</b> <input id=\"matchHour\" type=\"text\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr></table>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
             . "<tr><td align=\"center\"><h5>" . _OPPONENT . "</h5></td></tr>\n"
-            . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" /></td></tr>\n"
+            . "<tr><td><b>" . _NAME . " : </b><input id=\"matchOpponent\" type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" /></td></tr>\n"
             . "<tr><td><b>" . _LOGOADV . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" value=\"" . $logo_adv . "\"/>\n";
-        
+
             if ($logo_adv != "" && $_REQUEST['do'] == "edit"){
                 echo "<img src=\"" . $logo_adv . "\" title=\"" . $adv_name . "\" style=\"margin-left:20px; width:60px; height:auto; vertical-align:middle;\" />\n";
             }
@@ -363,49 +420,11 @@ function match(){
 
         echo "</select>"
             . "</td></tr><tr><td><b>" . _OURSCORE . " : </b>"
-            . "<input type=\"text\" name=\"score_team". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreTeam ."\" />"
+            . "<input id=\"matchTeamScore". $i ."\" type=\"text\" name=\"score_team". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreTeam ."\" />"
             . "&nbsp;&nbsp;<b>" . _OPPSCORE . " : </b>"
-            . "<input type=\"text\" name=\"score_adv". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreAdv ."\" />"
+            . "<input id=\"matchOpponentScore". $i ."\" type=\"text\" name=\"score_adv". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreAdv ."\" />"
             . "</td></tr>\n";
     }
-
-    /*$sql3 = nkDB_execute("SELECT map FROM " . GAMES_TABLE . " WHERE id=".nkDB_realEscapeString($_REQUEST['game']) ." ORDER BY name");
-    list($mapss) = nkDB_fetchArray($sql3);
-    $mapss = explode('|', $mapss);
-    for($maps = 1; $maps <= $nbr; $maps++){
-        $mapis = $mapss;
-        echo "<tr><td><b>Map n° ".$maps.": </b></td></tr><tr><td><select name=\"map_".$maps."\">\n";
-        foreach ($mapis as $mapping){
-            $mapping = printSecuTags($mapping);
-
-            if ($mapping == $maps[$maps-1]){
-                $checked3 = "selected=\"selected\"";
-            }
-            else{
-                $checked3 = "";
-            }
-
-            if ($mapping != "")
-            echo "<option value=\"" . $mapping . "\" " . $checked3 . ">" . $mapping . "</option>\n";
-        }
-
-        if(is_array($score_team)){
-            $scoreTeam = $score_team[$maps-1];
-        }
-        else{
-            $scoreTeam = 0;
-        }
-
-        if(is_array($score_adv)){
-            $scoreAdv = $score_adv[$maps-1];
-        }
-        else{
-            $scoreAdv =  0;
-        }
-
-        echo "</select>";
-        echo "</td></tr><tr><td><b>" . _OURSCORE . " : </b><input type=\"text\" name=\"score_team".$maps."\" maxlength=\"10\" size=\"5\" value=\"" . $scoreTeam . "\" />&nbsp;&nbsp;<b>" . _OPPSCORE . " : </b><input type=\"text\" name=\"score_adv".$maps."\" maxlength=\"10\" size=\"5\" value=\"" . $scoreAdv . "\" /></td></tr>\n";
-    }*/
 
     echo "</table>\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
@@ -433,8 +452,35 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
     require_once 'Includes/nkUpload.php';
 
+    $hour = $minute = 0;
+
+    if ($heure != '') {
+        $timeArray = explode(':', $heure, 2);
+        $hour      = (isset($timeArray[0])) ? (int) $timeArray[0] : null;
+        $minute    = (isset($timeArray[1])) ? (int) $timeArray[1] : null;
+
+        if ($hour === null || $minute === null || $hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
+            printNotification(_BADTIME, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+    }
+
+    $mois = (int) $mois;
+    $jour = (int) $jour;
+    $annee = (int) $annee;
+
+    if (mktime($hour, $minute, 0, $mois, $jour, $annee) === false) {
+        printNotification(_BADDATE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    if ($adversaire == '' || ctype_space($adversaire)) {
+        printNotification(stripslashes(_NO_OPPONENT), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
     $autor = $user[2];
-    $report = nkHtmlEntityDecode($report);
+    $report = secu_html(nkHtmlEntityDecode($report));
     $adversaire = nkDB_realEscapeString(stripslashes($adversaire));
     $report = nkDB_realEscapeString(stripslashes($report));
     $type = nkDB_realEscapeString(stripslashes($type));
@@ -447,9 +493,9 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     for ($i = 1; $i < $end; $i++){
         $mapList[]       = $_REQUEST['map_'. $i];
         $scoreTeamList[] = str_replace('|', '&#124;', $_REQUEST['score_team'. $i]);
-        $tscore_team    += $_REQUEST['score_team'. $i];
+        $tscore_team    += (int) $_REQUEST['score_team'. $i];
         $scoreAdvList[]  = str_replace('|', '&#124;', $_REQUEST['score_adv'. $i]);
-        $tscore_adv     += $_REQUEST['score_adv'. $i];
+        $tscore_adv     += (int) $_REQUEST['score_adv'. $i];
     }
 
     $map        = implode('|', $mapList);
@@ -476,8 +522,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
         list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', $imageCfg);
 
         if ($uploadError !== false) {
-            printNotification($uploadError, 'error');
-            redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
+            printNotification($uploadError, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
     }
@@ -485,15 +530,46 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
         if (! in_array($ext, $imageCfg['allowedExtension'])) {
-            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-            redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
 
-        $imageUrl = $_POST['urlImage'];
+        $imageUrl = stripslashes($_POST['urlImage']);
     }
 
-    $add = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $imageUrl ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
+    $etat = stripslashes($etat);
+    $team = stripslashes($team);
+    $game = stripslashes($game);
+    $url_adv = stripslashes($url_adv);
+    $country = stripslashes($country);
+    $imageUrl = stripslashes($imageUrl);
+    $type = stripslashes($type);
+    $style = stripslashes($style);
+    $map = stripslashes($map);
+    $score_team = stripslashes($score_team);
+    $score_adv = stripslashes($score_adv);
+    $url_league = stripslashes($url_league);
+
+    $etat = nkDB_realEscapeString($etat);
+    $team = nkDB_realEscapeString($team);
+    $game = nkDB_realEscapeString($game);
+    $url_adv = nkDB_realEscapeString($url_adv);
+    $country = nkDB_realEscapeString($country);
+    $imageUrl = nkDB_realEscapeString($imageUrl);
+    $type = nkDB_realEscapeString($type);
+    $style = nkDB_realEscapeString($style);
+    $map = nkDB_realEscapeString($map);
+    $score_team = nkDB_realEscapeString($score_team);
+    $score_adv = nkDB_realEscapeString($score_adv);
+    $autor = nkDB_realEscapeString($autor);
+    $url_league = nkDB_realEscapeString($url_league);
+
+    nkDB_execute(
+        "INSERT INTO ". WARS_TABLE ."
+        (`etat`, `team`, `game`, `adversaire`, `url_adv`, `pays_adv`, `image_adv`, `type`, `style`, `date_jour`, `date_mois`, `date_an`, `heure`, `map`,  `score_team`, `score_adv`, `tscore_team`, `tscore_adv`, `report`, `auteur`, `url_league`, `dispo`, `pas_dispo`)
+        VALUES
+        ('". $etat ."', '". $team ."', '". $game ."', '". $adversaire ."', '". $url_adv ."', '". $country ."', '". $imageUrl ."', '". $type."', '". $style ."', '". $jour ."', '". $mois ."', '". $annee ."', '". $heure ."', '". $map ."', '". $score_team ."', '". $score_adv ."', '". $tscore_team ."', '". $tscore_adv ."', '". $report ."', '". $autor ."', '". $url_league ."', '', '')"
+    );
 
     saveUserAction(_ACTIONADDWAR .'.');
 
@@ -504,9 +580,11 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 function del_war($war_id){
     global $nuked, $user;
 
-    $del = nkDB_execute("DELETE FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
-    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
-    $del_file = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
+    $war_id = (int) $war_id;
+
+    nkDB_execute("DELETE FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
+    nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
+    nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
 
     saveUserAction(_ACTIONDELWAR .'.');
 
@@ -519,7 +597,36 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 
     require_once 'Includes/nkUpload.php';
 
-    $report = nkHtmlEntityDecode($report);
+    $war_id = (int) $war_id;
+
+    $hour = $minute = 0;
+
+    if ($heure != '') {
+        $timeArray = explode(':', $heure, 2);
+        $hour      = (isset($timeArray[0])) ? (int) $timeArray[0] : null;
+        $minute    = (isset($timeArray[1])) ? (int) $timeArray[1] : null;
+
+        if ($hour === null || $minute === null || $hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
+            printNotification(_BADTIME, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+    }
+
+    $mois = (int) $mois;
+    $jour = (int) $jour;
+    $annee = (int) $annee;
+
+    if (mktime($hour, $minute, 0, $mois, $jour, $annee) === false) {
+        printNotification(_BADDATE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    if ($adversaire == '' || ctype_space($adversaire)) {
+        printNotification(stripslashes(_NO_OPPONENT), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $report = secu_html(nkHtmlEntityDecode($report));
     $adversaire = nkDB_realEscapeString(stripslashes($adversaire));
     $report = nkDB_realEscapeString(stripslashes($report));
     $type = nkDB_realEscapeString(stripslashes($type));
@@ -532,9 +639,9 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     for ($i = 1; $i < $end; $i++){
         $mapList[]       = $_REQUEST['map_'. $i];
         $scoreTeamList[] = str_replace('|', '&#124;', $_REQUEST['score_team'. $i]);
-        $tscore_team    += $_REQUEST['score_team'. $i];
+        $tscore_team    += (int) $_REQUEST['score_team'. $i];
         $scoreAdvList[]  = str_replace('|', '&#124;', $_REQUEST['score_adv'. $i]);
-        $tscore_adv     += $_REQUEST['score_adv'. $i];
+        $tscore_adv     += (int) $_REQUEST['score_adv'. $i];
     }
 
     $map        = implode('|', $mapList);
@@ -561,8 +668,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
         list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', $imageCfg);
 
         if ($uploadError !== false) {
-            printNotification($uploadError, 'error');
-            redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
+            printNotification($uploadError, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
     }
@@ -570,15 +676,48 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
         if (! in_array($ext, $imageCfg['allowedExtension'])) {
-            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-            redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
 
-        $imageUrl = $_POST['urlImage'];
+        $imageUrl = stripslashes($_POST['urlImage']);
     }
 
-    $upd = nkDB_execute("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $imageUrl . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
+    $team = (int) $team;
+    $game = (int) $game;
+    $etat = nkDB_realEscapeString(stripslashes($etat));
+    $url_adv = nkDB_realEscapeString(stripslashes($url_adv));
+    $country = nkDB_realEscapeString(stripslashes($country));
+    $imageUrl = nkDB_realEscapeString($imageUrl);
+    $map = nkDB_realEscapeString(stripslashes($map));
+    $score_team = nkDB_realEscapeString(stripslashes($score_team));
+    $score_adv = nkDB_realEscapeString(stripslashes($score_adv));
+    $url_league = nkDB_realEscapeString(stripslashes($url_league));
+
+    nkDB_execute(
+        "UPDATE ". WARS_TABLE ."
+        SET etat = '" . $etat . "',
+        team = '" . $team . "',
+        game = '" . $game . "',
+        adversaire = '" . $adversaire . "',
+        url_adv = '" . $url_adv . "',
+        pays_adv = '" . $country . "',
+        image_adv = '" . $imageUrl . "',
+        type = '" . $type . "',
+        style = '" . $style . "',
+        date_jour = '" . $jour . "',
+        date_mois = '" . $mois . "',
+        date_an = '" . $annee . "',
+        heure = '" . $heure . "',
+        map = '" . $map . "',
+        score_team = '" . $score_team . "',
+        score_adv = '" . $score_adv . "',
+        tscore_team = '" . $tscore_team . "',
+        tscore_adv = '" . $tscore_adv . "',
+        report = '" . $report . "',
+        url_league = '" . $url_league . "'
+        WHERE warid = '" . $war_id . "'"
+    );
 
     saveUserAction(_ACTIONMODIFWAR .'.');
 
@@ -588,6 +727,8 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 
 function main_file($im_id){
     global $bgcolor1, $bgcolor2, $bgcolor3;
+
+    $im_id = (int) $im_id;
 
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
@@ -644,6 +785,8 @@ function main_file($im_id){
 }
 
 function add_file($im_id){
+    $im_id = (int) $im_id;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
@@ -658,6 +801,8 @@ function add_file($im_id){
 }
 
 function edit_file($fid){
+    $fid = (int) $fid;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
@@ -690,6 +835,9 @@ function edit_file($fid){
 }
 
 function send_file($im_id, $file_type){
+    $im_id = (int) $im_id;
+    $fid = (int) $fid;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
@@ -719,8 +867,7 @@ function send_file($im_id, $file_type){
                 if ($uploadError == __('FILE_ALREADY_EXIST'))
                     $uploadError .= '<br />'. __('REPLACE_FILE');
 
-                printNotification($uploadError, 'error');
-                redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
+                printNotification($uploadError, 'error', array('backLinkUrl' => 'javascript:history.back()'));
                 return;
             }
         }
@@ -728,26 +875,36 @@ function send_file($im_id, $file_type){
             $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
 
             if (isset($fileCfg['allowedExtension']) && ! in_array($ext, $fileCfg['allowedExtension'])) {
-                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-                redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error', array('backLinkUrl' => 'javascript:history.back()'));
                 return;
             }
 
-            $fileUrl = $_POST['url_file'];
+            $fileUrl = stripslashes($_POST['url_file']);
         }
 
-        $add = nkDB_execute("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $fileUrl . "' )");
+        $file_type = nkDB_realEscapeString(stripslashes($file_type));
+        $fileUrl = nkDB_realEscapeString($fileUrl);
+
+        nkDB_execute(
+            "INSERT INTO ". WARS_FILES_TABLE ."
+            (`module`, `im_id`, `type`, `url`)
+            VALUES
+            ('Wars', '". $im_id ."', '". $file_type ."', '". $fileUrl ."')"
+        );
 
         printNotification(_WFILEADD, 'success');
         redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
     }
     else{
-        printNotification(_SPECIFY, 'error');
+        printNotification(_WSPECIFY, 'error');
         redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
     }
 }
 
 function modif_file($im_id, $fid, $file_type){
+    $im_id = (int) $im_id;
+    $fid = (int) $fid;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
@@ -777,8 +934,7 @@ function modif_file($im_id, $fid, $file_type){
                 if ($uploadError == __('FILE_ALREADY_EXIST'))
                     $uploadError .= '<br />'. __('REPLACE_FILE');
 
-                printNotification($uploadError, 'error');
-                redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
+                printNotification($uploadError, 'error', array('backLinkUrl' => 'javascript:history.back()'));
                 return;
             }
         }
@@ -786,33 +942,42 @@ function modif_file($im_id, $fid, $file_type){
             $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
 
             if (isset($fileCfg['allowedExtension']) && ! in_array($ext, $fileCfg['allowedExtension'])) {
-                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-                redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error', array('backLinkUrl' => 'javascript:history.back()'));
                 return;
             }
 
-            $fileUrl = $_POST['url_file'];
+            $fileUrl = stripslashes($_POST['url_file']);
         }
 
-        $upd = nkDB_execute("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $fileUrl . "' WHERE id = '" . $fid . "'");
+        $file_type = nkDB_realEscapeString(stripslashes($file_type));
+        $fileUrl = nkDB_realEscapeString($fileUrl);
+
+        nkDB_execute(
+            "UPDATE ". WARS_FILES_TABLE ."
+            SET type = '" . $file_type . "',
+            url = '" . $fileUrl . "'
+            WHERE id = '" . $fid . "'"
+        );
 
         printNotification(_FILEADD, 'success');
         redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
     }
     else{
-        printNotification(_SPECIFY, 'error');
+        printNotification(_WSPECIFY, 'error');
         redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
     }
 }
 
 function del_file($fid){
+    $fid = (int) $fid;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
     $sql = nkDB_execute("SELECT im_id FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id) = nkDB_fetchArray($sql);
 
-    $del = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
+    nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 
     printNotification(_WFILEDEL, 'success');
     redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
@@ -820,6 +985,17 @@ function del_file($fid){
 
 function main_pref(){
     global $nuked, $language;
+
+    echo '<script type="text/javascript">
+    function checkMatchSetting(){
+        if(! document.getElementById(\'nbMatch\').value.match(/^\d+$/)){
+            alert(\''. _NB_MATCH_NO_INTEGER .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _ADMINMATCH . "</h3>\n"
@@ -830,9 +1006,9 @@ function main_pref(){
 
             nkAdminMenu(3);
 
-            echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=change_pref\">\n"
+            echo "<form onsubmit=\"return checkMatchSetting()\" method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=change_pref\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-            . "<tr><td>" . _NUMBERWARS . " :</td><td> <input type=\"text\" name=\"max_wars\" size=\"2\" value=\"" . $nuked['max_wars'] . "\" /></td></tr>\n"
+            . "<tr><td>" . _NUMBERWARS . " :</td><td> <input id=\"nbMatch\" type=\"text\" name=\"max_wars\" size=\"2\" value=\"" . $nuked['max_wars'] . "\" /></td></tr>\n"
             . "</table><div style=\"text-align: center;\"></br><a href=\"index.php?file=Admin&amp;page=games\">"._MANAGETEAMMAP."</a><br/>\n"
             . "<br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
@@ -841,7 +1017,12 @@ function main_pref(){
 function change_pref($max_wars){
     global $nuked, $user;
 
-    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
+    if ($max_wars == '' || ! ctype_digit($max_wars)) {
+        printNotification(stripslashes(_NB_MATCH_NO_INTEGER), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
 
     saveUserAction(_ACTIONCONFWAR .'.');
 

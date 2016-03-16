@@ -14,12 +14,9 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 define("_WIN","Victoire(s)");
 define("_LOST","Défaite(s)");
 define("_DRAW","Nul(s)");
-
 define("_NOMATCH","Il n'y a pas encore de match");
-
 define("_OPPONENT","Adversaire");
 define("_LOGOADV","Logo de l'adversaire");
-
 define("_DETAILS","Rapport");
 define("_MATCH","Match");
 define("_MATCHES","Matches");
@@ -28,27 +25,19 @@ define("_MAPS","Maps");
 define("_REPORTBY","Rapport par");
 define("_OFFICIALREPORT","Rapport officiel");
 define("_DOWNLOADDEMO","Télécharger Démo");
-
-
 define("_WUPFILE","Uploader le fichier sur le serveur");
 //define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOWARS","voir tous les matches");
 define("_GOCALENDAR","voir le calendrier");
 define("_DETAILS2","Commentaire");
 define("_WFROM","de");
-
 define("_ADMINMATCH","Administration des Matches");
-
 define("_DELETEMATCH","Vous êtes sur le point de supprimer le match vs");
-
-
-
 define("_EDITTHISMATCH","Editer ce Match");
 define("_DELTHISMATCH","Supprimer ce Match");
 define("_ADDMATCH","Ajouter un match");
 define("_FINISH","Terminé");
 define("_HASTOPLAY","A jouer");
-
 define("_HOUR","Heure");
 define("_STYLE","Style");
 define("_OURSCORE","Notre Score");
@@ -58,7 +47,6 @@ define("_SECONDMAP","2ème map");
 define("_THIRDMAP","3ème map");
 define("_REPORT","Rapport");
 define("_URLREPORT","Url du rapport officiel");
-
 define("_MATCHADD","Match ajouté avec succès.");
 define("_MATCHDEL","Match supprimé avec succès.");
 define("_MATCHMODIF","Match modifié avec succès.");
@@ -66,7 +54,6 @@ define("_WADDFILE","Ajouter un fichier joint");
 define("_ADDMODFILE","Ajouter/Editer des fichiers joints");
 define("_IMG","Screenshot");
 define("_DEMO","Démo");
-
 define("_WFILEADD","Fichier ajouté avec succès.");
 define("_WFILEDEL","Fichier supprimé avec succès.");
 define("_FILEMODIF","Fichier modifié avec succès.");
@@ -80,6 +67,14 @@ define("_ACTIONADDWAR","a ajouté un match");
 define("_ACTIONDELWAR","a supprimé un match");
 define("_ACTIONMODIFWAR","a modifié un match");
 define("_ACTIONCONFWAR","a modifié les préférences du module wars");
+
+define("_NB_MAP_NO_INTEGER","Le nombre de map doit être un entier.");
+define("_NO_OPPONENT","L\'adversaire du match est manquant");
+define("_TEAM_SCORE_NO_INTEGER","Votre score à la map %d doit être un entier.");
+define("_TEAM_OPPONENT_NO_INTEGER","Le score adversaire de la map %d doit être un entier.");
+define("_WSPECIFY","Spécifier un fichier à envoyer.");
+
+define("_NB_MATCH_NO_INTEGER","Le nombre de matches par page doit être un entier.");
 
 return array(
     // modules/Wars/admin.php
