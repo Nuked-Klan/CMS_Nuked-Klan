@@ -187,8 +187,6 @@ function article($artid){
 
     $artid = (int) $artid;
 
-    opentable();
-
     if ($p == 1){
         $upd = nkDB_execute("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
     }
@@ -199,6 +197,8 @@ function article($artid){
         require_once 'modules/404/index.php';
         return;
     }
+
+    opentable();
 
     list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = nkDB_fetchRow($sql);
 

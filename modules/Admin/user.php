@@ -409,6 +409,9 @@ function update_user($userId) {
         WHERE id = '. nkDB_quote($userId)
     );
 
+    $_POST['nick'] = stripslashes($_POST['nick']);
+    $_POST['nick'] = nkHtmlEntityDecode($_POST['nick']);
+    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
     $_POST['nick'] = checkNickname($_POST['nick'], $dbrUser['pseudo']);
 
     if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
@@ -429,8 +432,6 @@ function update_user($userId) {
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $userId, 2);
         return;
     }
-
-    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
     $_POST['signature'] = stripslashes($_POST['signature']);
     $_POST['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
@@ -528,6 +529,9 @@ function do_user() {
         return;
     }
 
+    $_POST['nick'] = stripslashes($_POST['nick']);
+    $_POST['nick'] = nkHtmlEntityDecode($_POST['nick']);
+    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
     $_POST['nick'] = checkNickname($_POST['nick']);
 
     if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
@@ -539,8 +543,6 @@ function do_user() {
     do {
         $userId = sha1(uniqid());
     } while (nkDB_numRows(nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
-
-    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
     $_POST['signature'] = stripslashes($_POST['signature']);
     $_POST['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));

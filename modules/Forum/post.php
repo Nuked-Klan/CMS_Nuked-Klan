@@ -49,6 +49,7 @@ function checkForumPostAuthor() {
         return array($user['id'], $user['name'], false);
 
     $author = stripslashes($_POST['author']);
+    $author = nkHtmlEntityDecode($author);
     $author = nkHtmlEntities($author, ENT_QUOTES);
     $author = checkNickname($author);
 

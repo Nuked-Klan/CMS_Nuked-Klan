@@ -798,6 +798,8 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     if (initCaptcha() && ! validCaptchaCode())
         return;
 
+    $pseudo = stripslashes($pseudo);
+    $pseudo = nkHtmlEntityDecode($pseudo);
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     $pseudo = checkNickname($pseudo);
 
@@ -1103,12 +1105,13 @@ function update(){
 
     $data = array();
 
-    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
-
     $sql = nkDB_execute("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
     list($old_pseudo, $old_mail, $old_pass) = nkDB_fetchArray($sql);
 
     if ($_POST['nick'] != $old_pseudo){
+        $_POST['nick'] = stripslashes($_POST['nick']);
+        $_POST['nick'] = nkHtmlEntityDecode($_POST['nick']);
+        $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
         $_POST['nick'] = checkNickname($_POST['nick']);
 
         if (($error = getCheckNicknameError($_POST['nick'])) !== false) {

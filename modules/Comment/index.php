@@ -402,6 +402,8 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
             $autor_id = $user[0];
         }
         else{
+            $pseudo = stripslashes($pseudo);
+            $pseudo = nkHtmlEntityDecode($pseudo);
             $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
             $pseudo = checkNickname($pseudo);
 

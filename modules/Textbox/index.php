@@ -330,6 +330,7 @@ function submit() {
         }
         else {
             $_POST['auteur'] =  utf8_decode($_POST['auteur']);
+            $_POST['auteur'] = nkHtmlEntityDecode($_POST['auteur']);
             $_POST['auteur'] = nkHtmlEntities($_POST['auteur'], ENT_QUOTES);
             $_POST['auteur'] = checkNickname($_POST['auteur']);
 

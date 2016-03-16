@@ -86,8 +86,10 @@ function send_book($comment)
         $email = stripslashes($_REQUEST['email']);
         $url   = stripslashes($_REQUEST['url']);
 
-        $pseudo = checkNickname(stripslashes($_REQUEST['name']));
+        $pseudo = stripslashes($_REQUEST['name']);
+        $pseudo = nkHtmlEntityDecode($pseudo);
         $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
+        $pseudo = checkNickname($pseudo);
 
         if (($error = getCheckNicknameError($pseudo)) !== false) {
             printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
@@ -125,7 +127,7 @@ function send_book($comment)
         $date = time();
         $comment = secu_html(nkHtmlEntityDecode($comment));
         $comment = nkDB_realEscapeString(stripslashes($comment));
-        $pseudo  = nkDB_realEscapeString(stripslashes($pseudo));
+        $pseudo  = nkDB_realEscapeString($pseudo);
         $email   = nkDB_realEscapeString($email);
         $url     = nkDB_realEscapeString($url);
         $user_ip = nkDB_realEscapeString($user_ip);
