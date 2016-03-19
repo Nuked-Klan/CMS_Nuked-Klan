@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_threads.c.fk.i.u.php
+ * table.forums_threads.c.i.u.php
  *
  * `[PREFIX]_forums_threads` database table script
  *
@@ -12,7 +12,7 @@
 
 $dbTable->setTable(FORUM_THREADS_TABLE);
 
-require_once 'includes/fkLibs/authorForeignKey.php';
+//require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -25,7 +25,8 @@ $forumTopicsTableCfg = array(
         'date'      => array('type' => 'varchar(10)', 'null' => true,  'default' => 'NULL'),
         'closed'    => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
         'auteur'    => array('type' => 'varchar(30)', 'null' => false),
-        'auteur_id' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
+        //'auteur_id' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
+        'auteur_id' => array('type' => 'varchar(20)', 'null' => true,  'default' => 'NULL'),
         'forum_id'  => array('type' => 'int(5)',      'null' => false, 'default' => '\'0\''),
         'last_post' => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
         'view'      => array('type' => 'int(10)',     'null' => false, 'default' => '\'0\''),
@@ -35,11 +36,11 @@ $forumTopicsTableCfg = array(
     ),
     'primaryKey' => array('id'),
     'index' => array(
-        'auteur'    => 'auteur',
-        'auteur_id' => 'auteur_id',
+        //'auteur'    => 'auteur',
+        //'auteur_id' => 'auteur_id',
         'forum_id'  => 'forum_id'
     ),
-    'engine' => 'InnoDB'
+    'engine' => 'MyISAM'
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,14 +65,14 @@ function updateForumsThreadsDbTableRow($updateList, $row, $vars) {
         $setFields['nbReplies'] = $dbrForumMessages['nbMessages'] - 1;
     }
 
-    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+    /*if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
         $userData = getUserData($row['auteur_id']);
 
         if ($userData === false)
             $setFields['auteur_id'] = null;
         else
             $setFields['auteur'] = $userData['pseudo'];
-    }
+    }*/
 
     return $setFields;
 }
@@ -112,25 +113,25 @@ if ($process == 'install')
 
 if ($process == 'update') {
     // install / update 1.8
-    if ($dbTable->fieldExist('auteur')) {
+    /*if ($dbTable->fieldExist('auteur')) {
         if ($dbTable->getFieldType('auteur') != 'varchar(30)')
             $dbTable->modifyField('auteur', $forumTopicsTableCfg['fields']['auteur'])
                 ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('auteur_id', 'auteur'));
 
         if (! $dbTable->checkFieldIsIndex('auteur'))
             $dbTable->addFieldIndex('auteur');
-    }
+    }*/
 
-    if ($dbTable->fieldExist('auteur_id')) {
+    /*if ($dbTable->fieldExist('auteur_id')) {
         if (! $dbTable->checkFieldIsNull('auteur_id'))
             $dbTable->modifyField('auteur_id', $forumTopicsTableCfg['fields']['auteur_id']);
 
         if (! $dbTable->checkFieldIsIndex('auteur_id'))
             $dbTable->addFieldIndex('auteur_id');
-    }
+    }*/
 
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(FORUM_THREADS_TABLE) == 'MyISAM')
-        $this->_db->execute('ALTER TABLE `'. FORUM_THREADS_TABLE .'` ENGINE=InnoDB;');
+    //if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(FORUM_THREADS_TABLE) == 'MyISAM')
+    //    $this->_db->execute('ALTER TABLE `'. FORUM_THREADS_TABLE .'` ENGINE=InnoDB;');
 
     if (! $dbTable->fieldExist('nbReplies')) {
         $dbTable->addField('nbReplies', $forumTopicsTableCfg['fields']['nbReplies'])
@@ -144,12 +145,12 @@ if ($process == 'update') {
 // Add foreign key of table
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'addForeignKey') {
+/*if ($process == 'addForeignKey') {
     if (! $dbTable->foreignKeyExist('FK_forumTopics_authorId'))
         addAuthorIdForeignKey('forumTopics', 'auteur_id');
 
     if (! $dbTable->foreignKeyExist('FK_forumTopics_author'))
         addAuthorForeignKey('forumTopics', 'auteur');
-}
+}*/
 
 ?>

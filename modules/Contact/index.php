@@ -118,7 +118,7 @@ function sendmail(){
         mail($email, $subjet, $corp, $from);
 
         $nom = nkHtmlEntities($nom, ENT_QUOTES);
-        $email = nkHtmlEntities(nkHtmlEntityDecode(stripslashes($_REQUEST['mail'])), ENT_QUOTES);
+        $email = nkHtmlEntities(nkHtmlEntityDecode(stripslashes($_REQUEST['mail'])), ENT_QUOTES);// TODO : Why ENT_QUOTES ?
         $subject = nkHtmlEntities($sujet, ENT_QUOTES);
         $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
 

@@ -47,7 +47,7 @@ function nkRss_getLanguage() {
  * @return string : The node text protected
  */
 function nkRss_formatNodeText($str) {
-    $str = @nkHtmlEntityDecode($nuked['name']);
+    $str = @nkHtmlEntityDecode($str);
     $str = str_replace('&amp;', '&', $str);
 
     return nkHtmlSpecialChars($str);

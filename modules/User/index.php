@@ -813,6 +813,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         return;
     }
 
+    $mail = stripslashes($mail);
     $mail = nkHtmlEntities(nkHtmlEntityDecode($mail));
     $mail = checkEmail($mail, $checkRegistred = true);
 

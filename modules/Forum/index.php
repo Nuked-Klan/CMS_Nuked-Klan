@@ -227,6 +227,8 @@ function del_topic() {
 function move() {
     global $visiteur;
 
+    require_once 'Includes/nkToken.php';
+
     $forumId  = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
     $threadId = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
 

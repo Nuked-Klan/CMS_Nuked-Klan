@@ -32,7 +32,7 @@ $dbrForum = nkDB_selectMany(
 );
 
 foreach ($dbrForum as $forum) {
-    $dbrForumMessage = nkDB_selectMany(
+    $dbrForumMessage = nkDB_selectOne(
         'SELECT auteur, titre, txt, date
         FROM '. FORUM_MESSAGES_TABLE .'
         WHERE thread_id = \'' . $forum['id'] . '\'',

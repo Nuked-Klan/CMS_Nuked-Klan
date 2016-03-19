@@ -15,6 +15,7 @@ global $language, $visiteur, $bgcolor3, $bgcolor2;
 
 translate('modules/Forum/lang/'. $language .'.lang.php');
 
+require_once 'modules/Forum/core.php';
 
 // Prepare fields list for SQL query
 $fields = 'FT.id, FT.titre, FT.last_post, FT.forum_id, FT.nbReplies';

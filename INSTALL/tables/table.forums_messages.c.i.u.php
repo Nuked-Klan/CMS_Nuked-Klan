@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_messages.c.fk.i.u.php
+ * table.forums_messages.c.i.u.php
  *
  * `[PREFIX]_forums_messages` database table script
  *
@@ -12,7 +12,7 @@
 
 $dbTable->setTable(FORUM_MESSAGES_TABLE);
 
-require_once 'includes/fkLibs/authorForeignKey.php';
+//require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -26,7 +26,8 @@ $forumMsgTableCfg = array(
         'date'        => array('type' => 'varchar(12)',   'null' => false, 'default' => '\'\''),
         'edition'     => array('type' => 'text',          'null' => false),
         'auteur'      => array('type' => 'varchar(30)',   'null' => false),
-        'auteur_id'   => array('type' => 'varchar(20)',   'null' => true,  'default' => '\'\''),
+        //'auteur_id'   => array('type' => 'varchar(20)',   'null' => true,  'default' => '\'\''),
+        'auteur_id'   => array('type' => 'varchar(20)',   'null' => true,  'default' => 'NULL'),
         'auteur_ip'   => array('type' => 'varchar(40)',   'null' => false, 'default' => '\'\''),
         'bbcodeoff'   => array('type' => 'int(1)',        'null' => false, 'default' => '\'0\''),
         'smileyoff'   => array('type' => 'int(1)',        'null' => false, 'default' => '\'0\''),
@@ -39,12 +40,12 @@ $forumMsgTableCfg = array(
     ),
     'primaryKey' => array('id'),
     'index' => array(
-        'auteur'    => 'auteur',
-        'auteur_id' => 'auteur_id',
+        //'auteur'    => 'auteur',
+        //'auteur_id' => 'auteur_id',
         'thread_id' => 'thread_id',
         'forum_id'  => 'forum_id'
     ),
-    'engine' => 'InnoDB'
+    'engine' => 'MyISAM'
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,14 +61,14 @@ function updateForumsMessagesDbTableRow($updateList, $row, $vars) {
     if (in_array('APPLY_BBCODE', $updateList))
         $setFields['txt'] = $vars['bbcode']->apply(stripslashes($row['txt']));
 
-    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+    /*if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
         $userData = getUserData($row['auteur_id']);
 
         if ($userData === false)
             $setFields['auteur_id'] = null;
         else
             $setFields['auteur'] = $userData['pseudo'];
-    }
+    }*/
 
     return $setFields;
 }
@@ -112,25 +113,25 @@ if ($process == 'update') {
         $dbTable->modifyField('auteur_ip', $forumMsgTableCfg['fields']['auteur_ip']);
 
     // install / update 1.8
-    if ($dbTable->fieldExist('auteur')) {
+    /*if ($dbTable->fieldExist('auteur')) {
         if ($dbTable->fieldExist('auteur') && $dbTable->getFieldType('auteur') != 'varchar(30)')
             $dbTable->modifyField('auteur', $forumMsgTableCfg['fields']['auteur'])
                 ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('auteur_id', 'auteur'));
 
         if (! $dbTable->checkFieldIsIndex('auteur'))
             $dbTable->addFieldIndex('auteur');
-    }
+    }*/
 
-    if ($dbTable->fieldExist('auteur_id')) {
+    /*if ($dbTable->fieldExist('auteur_id')) {
         if (! $dbTable->checkFieldIsNull('auteur_id'))
             $dbTable->modifyField('auteur_id', $forumMsgTableCfg['fields']['auteur_id']);
 
         if (! $dbTable->checkFieldIsIndex('auteur_id'))
             $dbTable->addFieldIndex('auteur_id');
-    }
+    }*/
 
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(FORUM_MESSAGES_TABLE) == 'MyISAM')
-        $this->_db->execute('ALTER TABLE `'. FORUM_MESSAGES_TABLE .'` ENGINE=InnoDB;');
+    //if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(FORUM_MESSAGES_TABLE) == 'MyISAM')
+    //    $this->_db->execute('ALTER TABLE `'. FORUM_MESSAGES_TABLE .'` ENGINE=InnoDB;');
 
     // Update BBcode
     // update 1.7.9 RC1
@@ -146,12 +147,12 @@ if ($process == 'update') {
 // Add foreign key of table
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'addForeignKey') {
+/*if ($process == 'addForeignKey') {
     if (! $dbTable->foreignKeyExist('FK_forumMessages_authorId'))
         addAuthorIdForeignKey('forumMessages', 'auteur_id');
 
     if (! $dbTable->foreignKeyExist('FK_forumMessages_author'))
         addAuthorForeignKey('forumMessages', 'auteur');
-}
+}*/
 
 ?>
