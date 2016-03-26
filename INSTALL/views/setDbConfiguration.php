@@ -4,6 +4,7 @@
                 <h1><?php echo ($process == 'install') ? $i18n['INSTALL_'. $type] : $i18n['UPDATE_'. $type] ?></h1>
                 <form method="post" action="index.php?action=saveDbConfiguration" id="dbConfigurationForm" class="form">
                     <h2><?php echo $i18n['CONFIG'] ?></h2>
+<?php /*
                     <div id="dbTypeBox">
                         <label for="dbType"><?php echo $i18n['DB_TYPE'] ?></label> :&nbsp;
                         <select id="dbType" name="db_type">
@@ -17,20 +18,22 @@
                         </select>
                     </div>
 <?php
+
+
     if ($assist == 'yes') :
 ?>
                     <p id="dbTypeInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><?php echo $i18n['INSTALL_DB_TYPE'] ?></p>
 <?php
-    endif
+    endif */
 ?>
                     <div id="dbHostBox">
-                        <label for="dbHost"><?php printf($i18n['DB_HOST'], 'MySQL') ?></label>
+                        <label for="dbHost"><?php printf($i18n['DB_HOST'], $dbType) ?></label>
                         <input type="text" name="db_host" id="dbHost" value="<?php echo $dbHost ?>"<?php disabled($process, 'update') ?> />
                     </div>
 <?php
     if ($assist == 'yes') :
 ?>
-                    <p id="dbHostInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_HOST'], 'MySQL') ?></span></p>
+                    <p id="dbHostInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_HOST'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -41,7 +44,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                        <p id="dbUserInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_USER'], 'MySQL') ?></span></p>
+                        <p id="dbUserInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_USER'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -52,7 +55,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                    <p id="dbPasswordInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PASSWORD'], 'MySQL') ?></span></p>
+                    <p id="dbPasswordInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PASSWORD'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -63,7 +66,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                    <p id="dbPrefixInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PREFIX'], 'MySQL') ?></span></p>
+                    <p id="dbPrefixInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PREFIX'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -74,7 +77,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                    <p id="dbNameInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_NAME'], 'MySQL') ?></span></p>
+                    <p id="dbNameInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_NAME'], $dbType) ?></span></p>
 <?php
     endif
 
@@ -89,7 +92,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                        <p id="dbPortInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PORT'], 'MySQL') ?></span></p>
+                        <p id="dbPortInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PORT'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -99,7 +102,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                        <p id="dbPersistentInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PERSISTENT'], 'MySQL') ?></span></p>
+                        <p id="dbPersistentInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><span><?php printf($i18n['INSTALL_DB_PERSISTENT'], $dbType) ?></span></p>
 <?php
     endif
 ?>
@@ -109,6 +112,7 @@
                     <div id="notification"></div>
                     <div id="links">
                         <input type="submit" name="submit" value="<?php echo $i18n['SUBMIT'] ?>" />
+                        <input type="hidden" id="dbType" name="dbType" value="<?php echo $dbType ?>" />
                         <a href="index.php?action=<?php echo ($assist == 'no') ? 'selectProcessType' : 'changelog' ?>"><?php echo $i18n['BACK'] ?></a>
                     </div>
                 </form>

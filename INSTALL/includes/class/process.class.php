@@ -167,6 +167,8 @@ class process {
             if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix))
                 throw new fatalErrorException($this->_i18n['CORRUPTED_CONF_INC']);
 
+            if (! isset($global['db_type'])) $global['db_type']= 'MySQL';
+
             $this->_db = db::getInstance()->load($global);
 
             $sql = 'SELECT value AS version
@@ -330,7 +332,7 @@ class process {
         $this->_view->databaseTypeList  = db::getDatabaseTypeList();
 
         $dbHost = $dbUser = $dbName = '';
-        $dbType       = 'MySQL';
+        $dbType       = 'MySQLi';
         //$dbPersistent = false;
 
         if ($this->_session['process'] == 'update') {
@@ -343,7 +345,11 @@ class process {
             $dbUser = $global['db_user'];
             $dbName = $global['db_name'];
 
-            if (isset($global['db_type'])) $dbType = $global['db_type'];
+            if (isset($global['db_type']))
+                $dbType = $global['db_type'];
+            else
+                $dbType = 'MySQL';
+
             //if (isset($global['db_port'])) $dbPort = $global['db_port'];
             //if (isset($global['db_persistent'])) $dbPersistent = $global['db_persistent'];
         }
@@ -765,8 +771,19 @@ class process {
      */
     private function _requirements() {
         $requirements = array(
-            'PHP_VERSION' => (version_compare(PHP_VERSION, $this->_minimalPhpVersion)) ? 'enabled' : 'required-disabled'
+            'PHP_VERSION' => (version_compare(PHP_VERSION, $this->_minimalPhpVersion, '>=')) ? 'enabled' : 'required-disabled'
         );
+
+        if ($this->_session['process'] == 'install') {
+            unset($this->_phpExtension['mysql']);
+            $this->_phpExtension['mysqli'] = 'required';
+        }
+        else if ($this->_session['process'] == 'update') {
+            if (preg_match('#^7\.#', PHP_VERSION)) {
+                unset($this->_phpExtension['mysql']);
+                $this->_phpExtension['mysqli'] = 'required';
+            }
+        }
 
         foreach ($this->_phpExtension as $extensionName => $requirement) {
             if (extension_loaded($extensionName))

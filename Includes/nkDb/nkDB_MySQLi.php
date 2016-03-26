@@ -84,7 +84,7 @@ function nkDB_connect() {
  * @return string : The language define used for error of MySQLi database connection
  * /
 function nkDB_getConnectError() {
-    $mysqlErrno = mysql_errno();
+    $mysqlErrno = mysqli_errno();
 
     if ($mysqlErrno == 2002)
         return 'DB_HOST_ERROR';
@@ -95,7 +95,7 @@ function nkDB_getConnectError() {
     else if ($mysqlErrno == 2019)
         return 'DB_CHARSET_ERROR';
     else
-        return mysql_error();
+        return mysqli_error();
 }*/
 
 /**
@@ -431,7 +431,7 @@ function nkDB_delete($table, $where = 'all') {
  * Exec querys...
  *
  * @param string $sql : The SQL query to execute
- * @return bool : The result of mysql_query call
+ * @return bool : The result of mysqli_query call
  */
 function nkDB_execute($sql) {
     if ($GLOBALS['nkDB']['connectionError'])
@@ -468,7 +468,7 @@ function nkDB_execute($sql) {
         nkDB_insert(SQL_ERROR_TABLE, array(
             'date'  => time(),
             'url'   => basename($_SERVER['REQUEST_URI']),
-            'code'  => mysql_errno(),
+            'code'  => mysqli_errno(),
             'line'  => $errline,
             'file'  => $errfile,
             'error' => $error
@@ -482,7 +482,7 @@ function nkDB_execute($sql) {
 
     $GLOBALS['nkDB']['totalTime'] += $sqlTime;
 
-    // Save result ressource in order to perform a row count via mysql_num_rows
+    // Save result ressource in order to perform a row count via mysqli_num_rows
     $GLOBALS['nkDB']['latestRessource'] = $ressource;
 
     return $ressource;

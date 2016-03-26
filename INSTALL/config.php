@@ -23,6 +23,7 @@ return array(
     // Sets PHP extension list used by this version of Nuked-Klan
     'phpExtension' => array(
         'mysql'     => 'required',
+        'mysqli'    => 'optional',
         'session'   => 'required',
         'fileinfo'  => 'optional',
         'gd'        => 'required'
