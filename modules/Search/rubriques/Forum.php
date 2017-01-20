@@ -52,12 +52,14 @@ if ($nb_mess > 0){
         $mess_date = nkDate($mess_date);
         $subject = nkHtmlEntities($subject);
         $subject = nk_CSS($subject);
-
-        $sql_page = nkDB_execute("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
-        $nb_rep = nkDB_numRows($sql_page);
-        if ($nb_rep > $nuked['mess_forum_page']){
-            $topicpages = $nb_rep / $nuked['mess_forum_page'];
-            $topicpages = ceil($topicpages);
+        
+        $sql_page = mysql_query("SELECT COUNT(*) FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' AND id <= '" . $id . "'");
+        $nb_rep = mysql_fetch_array($sql_page);
+        $compteur = $nb_rep[0];
+        $nb_reponse = $compteur+0;
+        
+        if ($nb_reponse > $nuked['mess_forum_page']){
+            $topicpages = ceil($nb_reponse / $nuked['mess_forum_page']);
             $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $fid . "&amp;thread_id=" . $tid . "&amp;p=" . $topicpages . "#" . $mid;
         }
         else{
