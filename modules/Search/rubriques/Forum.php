@@ -53,7 +53,7 @@ if ($nb_mess > 0){
         $subject = nkHtmlEntities($subject);
         $subject = nk_CSS($subject);
         
-        $sql_page = mysql_query("SELECT COUNT(*) FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' AND id <= '" . $id . "'");
+        $sql_page = mysql_query("SELECT COUNT(*) FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' AND id <= '" . $mid . "'");
         $nb_rep = mysql_fetch_array($sql_page);
         $compteur = $nb_rep[0];
         $nb_reponse = $compteur+0;
