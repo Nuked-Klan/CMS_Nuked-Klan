@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -78,6 +78,6 @@ function edit_block_theme($bid){
 			, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
 			, '</td></tr></table>',"\n"
 			, '<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , __('BACK') , '</a></div></form><br /></div></div>',"\n";
-	
+
 }
 ?>

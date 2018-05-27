@@ -5,7 +5,7 @@
  * English translation for install / update process
  *
  * @version 1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -103,7 +103,7 @@ return array(
     # process->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Welcome to your NuKed-KlaN website %s',
-    'FIRST_NEWS_CONTENT'    => 'Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a>.',
+    'FIRST_NEWS_CONTENT'    => 'Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href="https://nuked-klan.fr">https://nuked-klan.fr</a>.',
     #####################################
     # processConfiguration->_check()
     #####################################

@@ -5,7 +5,7 @@
  * Frontend of Sections module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -413,7 +413,7 @@ function classe(){
     }
 
     $sql = nkDB_execute("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
-    
+
     $nb_art = nkDB_numRows($sql);
 
     if ($nb_art > 1 && $sid != ""){

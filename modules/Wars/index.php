@@ -5,7 +5,7 @@
  * Frontend of Wars module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -124,7 +124,7 @@ function index(){
                         $icone = $icon;
                     } else {
                         $icone = 'images/games/icon_nk.png';
-                    } 
+                    }
 
                     echo '<tr style="background: '. $bg . '">
                             <td style="width: 5%;">&nbsp;<img src="' . $icone . '" alt="" title="' . $game_name . '" /></td>

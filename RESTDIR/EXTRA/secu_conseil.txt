@@ -1,6 +1,6 @@
 
-NUKED-KLAN  CMS - http://www.nuked-klan.org
- 
+NUKED-KLAN  CMS - https://nuked-klan.fr
+
 ****************************************************************************************************
 
 CONSEIL DE SECURITE :
@@ -8,10 +8,10 @@ CONSEIL DE SECURITE :
 1 - N'utilisez pas de password trop simples et identiques à tous vos comptes et surtout votre compte
     administrateur.
 
-2 - Vérifiez régulièrement qu'un patch de sécurité ou une mise à jour est disponible, une 
+2 - Vérifiez régulièrement qu'un patch de sécurité ou une mise à jour est disponible, une
    fonction de vérification existe dans l'administration de votre portail.
 
-3 - Faites des sauvegardes régulières via l'outil phpmyadmin sur votre hébergement (demandez à votre 
+3 - Faites des sauvegardes régulières via l'outil phpmyadmin sur votre hébergement (demandez à votre
     hébergeur en cas de besoin).
 
 4 - Allez consultez la documentation sur le site officiel nuked-klan.org, vous y trouvez des informations

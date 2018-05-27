@@ -5,7 +5,7 @@
  * Manage install / update process
  *
  * @version 1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -680,7 +680,7 @@ class process {
      * Display partners logo & link
      */
     public function getPartners() {
-        $content = @file_get_contents('http://www.nuked-klan.org/extra/partners.php?key='. $this->_partnersKey);
+        $content = @file_get_contents('https://nuked-klan.fr/extra/partners.php?key='. $this->_partnersKey);
         $content = @unserialize($content);
 
         $view = new view('getPartners');
@@ -912,7 +912,7 @@ class process {
     }
 
     /*
-     * Generate and return a random user id 
+     * Generate and return a random user id
      */
     private function _generateUserId() {
         $charPool   = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 9));

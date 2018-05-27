@@ -34,7 +34,7 @@ define("_CLICIFNO","Click here if nothing happens");
 define("_ERRORCHMOD","Please remove the <b>install.php</b> and the <b>update.php</b> files from your FTP !<br />change these following files's access permissions to CHMOD 777 :<br /><br /><b>- images/icones/<br />- upload/Download/<br />- upload/Forum/<br />- upload/Gallery/<br />- upload/News/<br />- upload/Suggest/<br />- upload/User/<br />- upload/Wars/</b>");
 define("_GOHOME","Click here to go to your website.");
 //define("_FIRSTNEWSTITLE","Welcome to your NuKed-KlaN website");
-//define("_FIRSTNEWSCONTENT","Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a>.");
+//define("_FIRSTNEWSCONTENT","Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href=\"https://nuked-klan.fr\">https://nuked-klan.fr</a>.");
 define("_DBHOST","MySQL Host");
 define("_DBUSER","User");
 define("_DBPASS","Password");
@@ -463,12 +463,12 @@ return array(
     '1MONTH'            => '1 month',
     '1YEAR'             => '1 year',
     'FOREVER'           => 'Forever',
-    
+
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Sorry, this Module hasn\'t been activated !',
     'NO_ENTRANCE'       => 'Sorry you do not have the permissions of opening this page',
     'ZONE_ADMIN'        => 'This zone is reserved for the Admins, sorry...',
-    
+
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
     'RESERVED_NICKNAME' => 'This Nickname is already used.',
@@ -493,7 +493,7 @@ return array(
     'PREFERENCES_UPDATED' => 'Preferences were successfully modified',
     // nkAction_deleteConfirmation - Includes/nkAction.php
     'OPERATION_CANCELED' => 'Operation was canceled!',
-    
+
     // nkAction_delete - Includes/nkAction.php
     'MISSING_ID_URI'    => 'Id %s is not defined !',
     // nkAction_list - Includes/nkAction.php
@@ -551,7 +551,7 @@ return array(
     'NO_EXIST'          => 'Sorry either this page does not exist or the address that you typed is incorrect',
     // Sorry this page does not exist or the address which you typed is incorrect
     // TODO : See modules/404/lang/french.lang.php
-    
+
     // views/frontend/nkAlert/userEntrance.php
     'USER_ENTRANCE'     => 'Sorry, this part of the website is for registered Users only.',
     'LOGIN_USER'        => 'Login',
@@ -563,7 +563,7 @@ return array(
     // views/frontend/modules/Forum/viewTopic.php
     // views/frontend/modules/Vote/voteForm.php
     'TO_VOTE'           => 'Vote',
-    
+
     // views/frontend/modules/Forum/main.php
     // bloc login
     'WHO_IS_ONLINE'     => 'Who is on-line?',

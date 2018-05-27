@@ -5,7 +5,7 @@
  * Backend of Wars module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -137,7 +137,7 @@ function match(){
 
     if ($_REQUEST['do'] == "add"){
         nkAdminMenu(2);
-    } 
+    }
 
     if ($_REQUEST['do'] == "edit"){
         $action = "do_edit&amp;war_id=" . $war_id;
@@ -330,7 +330,7 @@ function match(){
     if ($_REQUEST['do'] == "add"){
         $heure = date("H:i");
         $logo_adv = null;
-    } 
+    }
 
     echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
             . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
@@ -440,8 +440,8 @@ function match(){
             echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";
         } else {
             echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _WADDFILE . "</a></div>\n";
-        } 
-    } 
+        }
+    }
 
     echo "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";

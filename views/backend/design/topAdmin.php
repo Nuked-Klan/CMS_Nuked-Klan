@@ -23,7 +23,7 @@
                 <div id="sidebar-wrapper">
 
                     <!-- Logo NK -->
-                    <a href="http://www.nuked-klan.org" target="_blank"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
+                    <a href="https://nuked-klan.fr" target="_blank"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
 
                     <!-- Sidebar Profile links -->
                     <div id="profile-links">
@@ -162,7 +162,7 @@
                             <!-- SUB MENU : DIVERS -->
                             <a href="#" class="nav-top-item<?php printAdminMenuCurrentClass('miscellaneous') ?>"><?php echo _DIVERS ?></a>
                             <ul>
-                                <li><a href="http://www.nuked-klan.org/index.php?file=Forum" target="_blank"><?php echo _OFFICIEL ?></a></li>
+                                <li><a href="https://nuked-klan.fr/index.php?file=Forum" target="_blank"><?php echo _OFFICIEL ?></a></li>
                                 <li><a <?php printAdminSubMenuCurrentClass('licence') ?> href="index.php?file=Admin&amp;page=licence"><?php echo _LICENCE ?></a></li>
                                 <li><a <?php printAdminSubMenuCurrentClass('propos') ?> href="index.php?file=Admin&amp;page=propos"><?php echo _PROPOS ?></a></li>
                             </ul>

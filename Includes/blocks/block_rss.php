@@ -1,23 +1,23 @@
 <?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_rss($blok){
-	
+
 	list($rssHost, $titreactu, $puce, $nbr) = explode('|', $blok['content']);
-	
+
 	$blok['content'] = '';
 
     if ($rssHost != '') {
         if ($handle = @fopen($rssHost, "r")) {
             fclose($handle);
 
-            $xml = simplexml_load_file($rssHost);	
+            $xml = simplexml_load_file($rssHost);
 
             $title = (string) $xml->channel->title;
             $title = htmlentities($title, ENT_QUOTES, 'UTF-8');
@@ -58,17 +58,17 @@ function affich_block_rss($blok){
 }
 
 function list_puce($spuce){
-	
+
 	echo '<option value="none.gif">-- ' . _NONE . ' --</option>';
-	
+
 	$path = "images/puces/";
 	$handle = opendir($path);
 	while (false !== ($puce = readdir($handle))) {
-		
+
 		if ($puce != "." && $puce != ".." && $puce != "Thumbs.db" && $puce != "index.html" && $puce != "none.gif") {
-			
+
 			if (is_file($path . $puce)) {
-				
+
 				$selected = ($puce == $spuce) ? 'selected="selected"' : '';
 				echo '<option value="' . $puce . '" ' . $selected . '>' . $puce . '</option>';
             }
@@ -93,7 +93,7 @@ function edit_block_rss($bid){
     else if ($active == 3) $checked3 = 'selected="selected"';
     else if ($active == 4) $checked4 = 'selected="selected"';
     else $checked0 = 'selected="selected"';
-	
+
 	echo '<script type="text/javascript">
 	      <!--
 		  function update_img(newimage){
@@ -133,11 +133,11 @@ function edit_block_rss($bid){
 						      <select name="nivo">
 							      <option>' . $nivo . '</option>
 								  <option disabled="disabled"> -- </option>';
-								  
+
 								  for ($i = 0; $i <= 9; $i++) {
 									  echo '<option>' . $i . '</option>';
 								  }
-								  
+
 						echo '</select>
 						  </td>
                       </tr>
@@ -147,12 +147,12 @@ function edit_block_rss($bid){
 					  <tr>
 					      <td colspan="4"><b>' . _TITREACTU . ' : </b>
 						      <select name="titreactu">';
-							  
+
 							  if (!empty($titreactu)) {
 							      echo '<option>' . $titreactu . '</option>
 								        <option disabled="disabled"> --- </option>';
 							  }
-							  
+
 							echo '<option>Oui</option>
 								  <option>Non</option>
 							  </select>
@@ -161,12 +161,12 @@ function edit_block_rss($bid){
 					  <tr>
 					      <td colspan="4"><b>' . _NBRRSS . ' : </b>
 						      <select name="nbr">';
-							      
+
 							  if (!empty($nbr)) {
 							      echo '<option>' . $nbr . '</option>
 								        <option disabled="disabled"> --- </option>';
 							  }
-							      
+
 							echo '<option>5</option>
 								  <option>10</option>
 								  <option>15</option>
@@ -177,10 +177,10 @@ function edit_block_rss($bid){
 					  <tr>
 					      <td colspan="3"><b>' . _PUCE . ' : </b>
 						      <select name="puce" onchange="update_img(this.options[selectedIndex].value);">';
-							  
+
 							  list_puce($puce);
 							  if (empty($puce)) $puce = "none.gif";
-							  
+
 					echo '    </select>
 					          <img id="img_puce" src="images/puces/' . $puce . '" alt="" />
 					      </td>

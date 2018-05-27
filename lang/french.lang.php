@@ -34,7 +34,7 @@ define("_CLICIFNO","Cliquez ici si rien ne se passe");
 define("_ERRORCHMOD","Veuillez supprimer les fichiers <b>install.php</b> et <b>update.php</b> de votre FTP !<br />Modifiez également l'attribut en CHMOD 777 des répertoires :<br /><br /><b>- images/icones/<br />- upload/Download/<br />- upload/Forum/<br />- upload/Gallery/<br />- upload/News/<br />- upload/Suggest/<br />- upload/User/<br />- upload/Wars/</b>");
 define("_GOHOME","Cliquez ici pour aller sur votre site.");
 //define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
-//define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
+//define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"https://nuked-klan.fr\">https://nuked-klan.fr</a> dans le forum prévu à cet effet.");
 define("_DBHOST","Host MySQL");
 define("_DBUSER","User");
 define("_DBPASS","Password");
@@ -476,7 +476,7 @@ return array(
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',
     'NO_ENTRANCE'       => 'Désolé mais vous n\'avez pas les droits pour accéder à cette page',
     'ZONE_ADMIN'        => 'Cette zone est réservée à l\'Admin, désolé...',
-    
+
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Pseudo incorrect, certains caractères sont interdits.',
     'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé.',
@@ -501,7 +501,7 @@ return array(
     'PREFERENCES_UPDATED' => 'Préférences modifiées avec succès',
     // nkAction_deleteConfirmation - Includes/nkAction.php
     'OPERATION_CANCELED' => 'Opération annulé !',
-    
+
     // nkAction_delete - Includes/nkAction.php
     'MISSING_ID_URI'    => 'Aucun id %s défini !',
     // nkAction_list - Includes/nkAction.php
@@ -558,7 +558,7 @@ return array(
     // views/frontend/nkAlert/noExist.php
     'NO_EXIST'          => 'Désolé cette page n\'existe pas ou l\'adresse que vous avez tapé est incorrecte',
     // TODO : See modules/404/lang/french.lang.php
-    
+
     // views/frontend/nkAlert/userEntrance.php
     'USER_ENTRANCE'     => 'Désolé cette zone est réservée aux utilisateurs enregistrés.',
     'LOGIN_USER'        => 'Identification',
@@ -570,7 +570,7 @@ return array(
     // views/frontend/modules/Forum/viewTopic.php
     // views/frontend/modules/Vote/voteForm.php
     'TO_VOTE'           => 'Voter',
-    
+
     // views/frontend/modules/Forum/main.php
     // bloc login
     'WHO_IS_ONLINE'     => 'Qui est en ligne ?',

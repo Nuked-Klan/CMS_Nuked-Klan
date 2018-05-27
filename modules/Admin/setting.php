@@ -5,7 +5,7 @@
  * Backend of Admin module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -357,7 +357,7 @@ function edit_config() {
     . "<option>8</option>\n"
     . "<option>9</option></select></td></tr>\n"
     . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
-    
+
     $data = unserialize(nkStats_formatData($nuked));
 
     $string = "";

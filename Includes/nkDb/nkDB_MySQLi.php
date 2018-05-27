@@ -2,10 +2,10 @@
 /**
  * nkDB_MySQLi.php
  *
- * 
+ *
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -279,7 +279,7 @@ function nkDB_totalNumRows($query = false) {
  *        - Values : List of values to insert
  *        Values are automaticly escaped
  *        You may disable escaping by placing value in a sub-array
- *        ex. : 
+ *        ex. :
  *          $data = array(
  *              'field_foo' => 'foo',                               // values will be escaped
  *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
@@ -328,7 +328,7 @@ function nkDB_insertId() {
  *        - Values : List of values to replace
  *        Values are automaticly escaped
  *        You may disable escaping by placing value in a sub-array
- *        ex. : 
+ *        ex. :
  *          $data = array(
  *              'field_foo' => 'foo',                               // values will be escaped
  *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
@@ -364,7 +364,7 @@ function nkDB_replace($table, $data) {
  *        - Values : List of values to insert
  *        Values are automaticly escaped
  *        You may disable escaping by placing value in a sub-array
- *        ex. : 
+ *        ex. :
  *          $data = array(
  *              'field_foo' => 'foo',                               // values will be escaped
  *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
@@ -404,7 +404,7 @@ function nkDB_update($table, $data, $where) {
  * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE query
  *
  * @param void
- * @return int : The number of affected rows if the query was successful, returns -1 if the last query failed. 
+ * @return int : The number of affected rows if the query was successful, returns -1 if the last query failed.
  */
 function nkDB_affectedRows() {
     if ($GLOBALS['nkDB']['latestRessource'])

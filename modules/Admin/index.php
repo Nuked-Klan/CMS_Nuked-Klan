@@ -5,7 +5,7 @@
  * Backend of Admin module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -45,7 +45,7 @@ function getAdminModulesMenuList() {
         }
     }
 }
-    
+
 function main() {
     global $nuked, $user, $visiteur, $language;
 
@@ -154,17 +154,17 @@ function main() {
                                 <?php
                                     $sqlUser=nkDB_execute("SELECT pseudo, date, id, country FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
                                     while (list($userPseudo, $regiterDate, $userId, $userCountry)=nkDB_fetchRow($sqlUser)) {
-                                    
+
                                     $userPseudo = stripslashes($userPseudo);
                                     $regiterDate = nkDate($regiterDate);
                                     $titleCountry = str_replace(".gif", "", $userCountry);
-                                    
+
                                     if ( strlen($userPseudo) > 30 ) { $userPseudo = substr($userPseudo, 0, 30)."..."; }
-                                ?> 
+                                ?>
                                     <div>
                                         <img src="images/flags/<?php echo $userCountry;?>" alt="<?php echo $userCountry;?>" title="<?php echo $titleCountry;?>" />
                                         <a href="index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=<?php echo $userId; ?>" title="<?php echo _DATEREGISTRATION;?><?php echo $regiterDate;?>"><?php echo $userPseudo; ?></a>
-                                    </div>                      
+                                    </div>
                                 <?php
                                 }
                                 ?>
@@ -181,12 +181,12 @@ function main() {
                                     while (list($idLastUsed, $pseudoLastused, $niveauLastUsed, $lastUsed) = nkDB_fetchArray($sqlLastVisit))
                                     {
                                         $lastUsed == '' ? $lastUsed = '-' : $lastUsed = nkDate($lastUsed);
-                                    
+
                                     if ( strlen($pseudoLastused) > 30 ) { $pseudoLastused = substr($pseudoLastused, 0, 30)."..."; }
-                                ?> 
+                                ?>
                                     <div>
                                         <span><strong><?php echo $pseudoLastused;?></strong>&nbsp;:&nbsp;<?php echo $lastUsed;?></span>
-                                    </div>                      
+                                    </div>
                                 <?php
                                 }
                                 ?>
@@ -201,25 +201,25 @@ function main() {
                                 <?php
                                     $sqlLastComment = nkDB_execute("SELECT module, im_id, autor, date FROM " . COMMENT_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
                                     $countComment = nkDB_numRows($sqlLastComment);
-                                
+
                                 if($countComment != 0){
                                     while (list($lastModuleComment, $modIdComment, $lastCommentAuthor, $lastCommentDate) = nkDB_fetchArray($sqlLastComment))
                                     {
                                         $lastCommentDate = nkDate($lastCommentDate);
-                                    
+
                                     if ( strlen($lastCommentAuthor) > 30 ) { $lastCommentAuthor = substr($lastCommentAuthor, 0, 30)."..."; }
-                                    if ($lastModuleComment == "Links")    $commentLink = "index.php?file=Links&amp;op=description&amp;link_id=" . $modIdComment ."";    
-                                    if ($lastModuleComment == "Gallery")  $commentLink = "index.php?file=Gallery&amp;op=description&amp;sid=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "Links")    $commentLink = "index.php?file=Links&amp;op=description&amp;link_id=" . $modIdComment ."";
+                                    if ($lastModuleComment == "Gallery")  $commentLink = "index.php?file=Gallery&amp;op=description&amp;sid=" . $modIdComment ."";
                                     if ($lastModuleComment == "news")     $commentLink = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $modIdComment ."";
-                                    if ($lastModuleComment == "Sections") $commentLink = "index.php?file=Sections&amp;op=article&amp;artid=" . $modIdComment ."";    
-                                    if ($lastModuleComment == "Download") $commentLink = "index.php?file=Download&amp;op=description&amp;dl_id=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "Sections") $commentLink = "index.php?file=Sections&amp;op=article&amp;artid=" . $modIdComment ."";
+                                    if ($lastModuleComment == "Download") $commentLink = "index.php?file=Download&amp;op=description&amp;dl_id=" . $modIdComment ."";
                                     if ($lastModuleComment == "Survey")   $commentLink = "index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $modIdComment ."";
                                     if ($lastModuleComment == "match")    $commentLink = "index.php?file=Wars&amp;op=detail&amp;war_id=" . $modIdComment ."";
-                                ?> 
+                                ?>
                                     <div>
                                         <span><strong><?php echo $lastCommentAuthor;?></strong>&nbsp;<?php echo _HAS_COMMENTED_MOD;?>&nbsp;<a href="<?php echo $commentLink;?>" title="<?php echo _POSTED_THE;?>&nbsp;<?php echo $lastCommentDate;?>"><?php echo $lastModuleComment; ?></a>
                                         </span>
-                                    </div>                      
+                                    </div>
                                 <?php
                                     }
                                 ?>
@@ -229,9 +229,9 @@ function main() {
                                 <?php
                                 }
                                 else {
-                                ?> 
-                                    <p><?php echo _NOCOMMENT;?></p>                     
-                                <?php                                    
+                                ?>
+                                    <p><?php echo _NOCOMMENT;?></p>
+                                <?php
                                 }
                                 ?>
                                 </div>
@@ -247,7 +247,7 @@ function main() {
                                     list($nbUser, $nbPost, $visitCounter) = nkDB_fetchArray($sqlStats);
 
                                     $nb = nbvisiteur();
-                                ?> 
+                                ?>
                                     <div>
                                         <span><?php echo _TOTALMEMBERS;?>&nbsp;:&nbsp;<?php echo $nbUser;?></span>
                                     </div>
@@ -289,7 +289,7 @@ function main() {
                         <div class="tab-content default-tab" id="NKUpdate">
                             <!-- NK.UPDATE CONTENT -->
                         </div><!-- End #tab3 -->
-                        <?php echo '<script type="text/javascript" src="http://www.nuked-klan.org/extra/message.php?version=' . $nuked['version'] . '&lang=' . $language . '"></script>'; ?>
+                        <?php echo '<script type="text/javascript" src="https://nuked-klan.fr/extra/message.php?version=' . $nuked['version'] . '&lang=' . $language . '"></script>'; ?>
                     </div><!-- End .content-box-content -->
                 </div><!-- End .content-box -->
 

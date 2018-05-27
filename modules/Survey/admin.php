@@ -5,7 +5,7 @@
  * Backend of Survey module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -34,7 +34,7 @@ function add_sondage() {
 
     for ($r = 0; $r < 13; $r++) {
         echo "<tr><td align=\"right\">" . _CHOICE . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[]\" size=\"40\" /></td></tr>\n";
-    } 
+    }
 
     echo "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _LEVEL . " :</b> <select name=\"niveau\">\n"
@@ -113,7 +113,7 @@ function edit_sondage($poll_id) {
     while (list($optiontext) = nkDB_fetchArray($sql2)) {
         $r++;
         echo "<tr><td align=\"right\">" . _CHOICE . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[" . $r . "]\" size=\"40\" value=\"" . $optiontext . "\" /></td></tr>\n";
-    } 
+    }
 
     $r++;
 
@@ -144,8 +144,8 @@ function modif_sondage($poll_id, $titre, $newoption, $niveau) {
             $upd = nkDB_execute("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
         } else {
             $del = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
-        } 
-    } 
+        }
+    }
 
     if (!empty($newoption)) {
         $newoption = nkDB_realEscapeString(stripslashes($newoption));
@@ -206,11 +206,11 @@ function main(){
             . "<td align=\"center\">" . $niveau . "</td>\n"
             . "<td align=\"center\"><a href=\"index.php?file=Survey&amp;page=admin&amp;op=edit_sondage&amp;poll_id=" . $poll_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOLL . "\" /></a></td>\n"
             . "<td align=\"center\"><a href=\"javascript:del_poll('" . addslashes($titre) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
-    } 
+    }
 
     if ($count == 0) {
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NOPOOL . "</td></tr>\n";
-    } 
+    }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>";
 }

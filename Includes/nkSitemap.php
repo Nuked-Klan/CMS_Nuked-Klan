@@ -5,7 +5,7 @@
  * Manage sitemap.xml file.
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -16,7 +16,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * Format url node of sitemap.
  *
  * @param string $module : The name of module.
- * @param float $priority : The 
+ * @param float $priority : The
  * @param mixed $lastmod : The date of last modification if added in url node, false also.
  * @param mixed $changefreq : Value of update frequency of url node if added in url node, false also.
  * @return string XML code

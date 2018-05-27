@@ -5,7 +5,7 @@
  * Display block of Page module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -23,7 +23,7 @@ while (list($titre) = nkDB_fetchArray($sql))
     $i++;
 
     echo "<div><b>" . $i . " . <a href=\"index.php?file=Page&amp;name=" . $titre . "\">" . $titre . "</a></b></div>\n";
-} 
+}
 
 
 ?>

@@ -5,7 +5,7 @@
  * Backend of Page module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -30,7 +30,7 @@ global $nuked, $language, $bgcolor1, $bgcolor2, $bgcolor3;
     . "\n"
 . "// -->\n"
 . "</script>\n";
-    
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>Gestion des Pages</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
@@ -53,7 +53,7 @@ $sql = nkDB_execute("SELECT id, titre, url, type FROM " . PAGE_TABLE . " ORDER B
 $nb_page = nkDB_numRows($sql);
 
 while (list($page_id, $titre, $url, $type) = nkDB_fetchArray($sql))
-{ 
+{
     if ($url != "") $pagename = $url;
     else $pagename = _NOFILE;
 
@@ -61,12 +61,12 @@ while (list($page_id, $titre, $url, $type) = nkDB_fetchArray($sql))
         {
             $bg = $bgcolor2;
             $i++;
-        } 
+        }
         else
         {
             $bg = $bgcolor1;
             $i = 0;
-        } 
+        }
 
     echo "<tr>\n"
     . "<td style=\"width: 30%;\">&nbsp;<a href=\"index.php?file=Page&amp;name=" . $titre . "\" onclick=\"window.open(this.href); return false;\">" . $titre . "</a></td>\n"
@@ -108,7 +108,7 @@ function add()
 
     printNotification(_NOTIFIPAGELEVEL, 'warning');
 
-    echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\">\n" 
+    echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\">\n"
     . "<option>0</option>\n"
     . "<option>1</option>\n"
     . "<option>2</option>\n"
@@ -120,9 +120,9 @@ function add()
     . "<option>8</option>\n"
     . "<option>9</option></select>\n"
     . "<span style=\"margin-left:30px;\"><b>" . _MEMBERSAUTORIZ ." :</b> <select style=\"vertical-align:middle\" multiple=\"multiple\" name=\"members[]\">\n";
-    
+
     $sql_list = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");
-    
+
     while(list($mid, $pseudo) = nkDB_fetchArray($sql_list))
     {
         echo '<option value="' . $mid . '">' . $pseudo . '</option>\n';
@@ -278,10 +278,10 @@ function edit($page_id)
     list($niveau, $titre, $content, $url, $type, $show_title, $members) = nkDB_fetchArray($sql);
     $content = stripslashes($content);
 
-    if ($type == "html") $selected1 = "selected=\"selected\"";	 
+    if ($type == "html") $selected1 = "selected=\"selected\"";
     else $selected1 = "";
 
-    if ($type == "php") $selected2 = "selected=\"selected\""; 
+    if ($type == "php") $selected2 = "selected=\"selected\"";
     else $selected2 = "";
 
     if ($show_title == 1)
@@ -294,7 +294,7 @@ function edit($page_id)
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">\n"	
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">\n"
     . "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=do_edit\" enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" value=\"" . $titre . "\" /><span style=\"margin-left:30px;\"><b>" . _SHOWTITLE . " :</b>\n";
@@ -309,7 +309,7 @@ function edit($page_id)
 
     printNotification(_NOTIFIPAGELEVEL, 'warning');
 
-    echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n" 
+    echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
     . "<option>0</option>\n"
     . "<option>1</option>\n"
     . "<option>2</option>\n"
@@ -321,10 +321,10 @@ function edit($page_id)
     . "<option>8</option>\n"
     . "<option>9</option></select>\n"
     . "<span style=\"margin-left:30px;\"><b>" . _MEMBERSAUTORIZ ." :</b> <select style=\"vertical-align:middle\" multiple=\"multiple\" name=\"members[]\">\n";
-    
+
     $user_array = explode('|', $members);
-    
-    $sql_list = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");		
+
+    $sql_list = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");
     while(list($mid, $pseudo) = nkDB_fetchArray($sql_list))
     {
         $sel = (in_array($mid, $user_array)) ? 'selected="selected"' : '';
@@ -383,7 +383,7 @@ function edit($page_id)
     . "<tr><td><b>" . _UPLOADPAGE . " : </b><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
-    
+
     $sql_menu = nkDB_execute("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
     while (list($bid, $menu) = nkDB_fetchArray($sql_menu))
     {
@@ -515,7 +515,7 @@ function main_pref()
 
     $sql = nkDB_execute("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
     while (list($titre) = nkDB_fetchArray($sql))
-    { 
+    {
         if ($titre == $nuked['index_page']) $selected = "selected=\"selected\"";
         else $selected = "";
 

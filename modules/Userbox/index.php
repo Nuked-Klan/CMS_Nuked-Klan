@@ -5,7 +5,7 @@
  * Frontend of Userbox module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -106,7 +106,7 @@ function send_message($titre, $user_for, $message){
 			$nb = nkDB_numRows($sql2);
 		}
 		else $nb = 0;
-		
+
 		if ($nb == 0) {
 			printNotification(_UNKNOWMEMBER, 'error', array('backLinkUrl' => 'javascript:history.back()'));
 		}
@@ -115,19 +115,19 @@ function send_message($titre, $user_for, $message){
 			list($flood_date) = nkDB_fetchArray($flood);
 			$anti_flood = $flood_date + $nuked['post_flood'];
 			$date = time();
-			
+
 			if ($date < $anti_flood){
 				printNotification(_UNOFLOOD, 'error');// TODO : Backlink ?
 				redirect('index.php?file=Userbox', 2);
 				return;
 			}
-			
+
 			$message = secu_html(nkHtmlEntityDecode($message));
 			$titre = nkDB_realEscapeString(stripslashes($titre));
 			$message = nkDB_realEscapeString(stripslashes($message));
 			$user_for = nkDB_realEscapeString(stripslashes($user_for));
 			$titre = nkHtmlEntities($titre);
-			
+
 			nkDB_execute(
                 "INSERT INTO ". USERBOX_TABLE ."
                 (`user_from`, `user_for`, `titre`, `message`, `date`)

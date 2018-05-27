@@ -5,7 +5,7 @@
  * Display block of News module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -25,7 +25,7 @@ echo '<ul style="margin:5px ' . $margin . ';padding:5px;' . $listStyle . '">';
 
 $Sql = nkDB_execute("SELECT id, titre, date, auteur, auteur_id FROM " . NEWS_TABLE . " WHERE '$day' >= date ORDER BY date DESC LIMIT 0, 5");
 while ($row = nkDB_fetchAssoc($Sql)) {
-	
+
 	$row['date'] = nkDate($row['date']);
 	$row['titre'] = printSecuTags($row['titre']);
 	$titre = (strlen($row['titre']) > 30) ? substr($row['titre'],0,30).'...' : $row['titre'];
@@ -38,9 +38,9 @@ while ($row = nkDB_fetchAssoc($Sql)) {
     }
 
 	$title = _BY . ' ' . $row['auteur'] . ' ( ' . $row['date'] . ' )';
-	
+
 	if ($active == 3 or $active == 4) {
-		
+
 		echo '<li>
 	              <img src="modules/News/images/folder.png" witdh="22" height="22" alt="Folder" style="float:left;margin-top:4px" />
 			      <div style="float:left;padding:0 0 2px 3px">
@@ -53,14 +53,14 @@ while ($row = nkDB_fetchAssoc($Sql)) {
 				  </div>
 				  <hr style="color: ' . $bgcolor3 . ';height:1px;clear:both" />
 			 </li>';
-		
+
 	} else {
-	    
+
 		echo '<li>
 	              <a href="index.php?file=News&amp;op=index_comment&amp;news_id=' . $row['id'] . '" title="' . $title . '"><b>' . $titre . '</b></a>
 				  <hr style="color: ' . $bgcolor3 . ';height:1px" />
 			 </li>';
-	    
+
 	}
 }
 

@@ -1,16 +1,16 @@
 nuked-klan GD miniature
 By MaStErPsX
-http://www.nuked-klan.org
+https://nuked-klan.fr
 
 ****************************************************************************************************
 ENGLISH
 
 DESCRIPTION :
-Create GD thumbnail for Gallery Module 
+Create GD thumbnail for Gallery Module
 
 
 INSTALL :
- 
+
 1 - Upload the file "updateGD.php" on your FTP near "nuked.php".
 
 2 - launch upgrade in your browser's address bar :
@@ -31,5 +31,5 @@ INSTALLATION :
    http://www.yoursite.com/updateGD.php
 
 *****************************************************************************************************************
-COPYRIGHT : 
-http://www.nuked-klan.org
+COPYRIGHT :
+https://nuked-klan.fr

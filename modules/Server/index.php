@@ -5,7 +5,7 @@
  * Frontend of Server module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -36,7 +36,7 @@ function index() {
         while($raw = nkDB_fetchAssoc($sql2)) {
             $test++;
             $serverlist[] = array($raw['ip'], $raw['port'], $raw['pass'], $raw['sid'], $raw['game']);
-        } 
+        }
 
         if ($test <> 0) {
             echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
@@ -108,7 +108,7 @@ function index() {
                 } else {
                     $bg = $bgcolor1;
                     $j = 0;
-                } 
+                }
 
                 $gameserver = queryServer($address, $queryport, $protocol);
 
@@ -128,17 +128,17 @@ function index() {
 
                     if ($gameserver->maptitle) {
                         echo printSecuTags($gameserver->maptitle);
-                    } 
+                    }
 
                     echo "</td><td style=\"width: 15%;\" align=\"center\">" . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "</td></tr>\n";
-                } 
-            } 
+                }
+            }
 
             echo "</table>\n";
         } else {
             echo "<div style=\"text-align: center;\">" . _NOSERVER . "</div>\n";
-        } 
-    } 
+        }
+    }
 
     echo "<br /><form method=\"post\" action=\"index.php?file=Server&amp;op=server\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"2\" cellspacing=\"0\">\n"
@@ -164,7 +164,7 @@ function index() {
         . "<option value=\"BTF1942\">Battlefield 1942</option></select>\n"
         . "&nbsp;<input type=\"submit\" value=\"" . _SSEARCH . "\" /></td></tr></table></form><br />";
 
-} 
+}
 
 function server($server_id) {
     global $nuked, $address, $port, $game, $sgame, $sortby, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -182,7 +182,7 @@ function server($server_id) {
         $port = $nuked['server_port'];
         $game = $nuked['server_game'];
         $password = $nuked['server_pass'];
-    } 
+    }
 
     $game = $row['game'];
     $password = $row['pass'];
@@ -248,7 +248,7 @@ function server($server_id) {
             $mapimage = $screen;
         } else {
             $mapimage = 'modules/Server/images/nopicture.jpg';
-        } 
+        }
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . printSecuTags($gameserver->servertitle) . "</b></big></div><br />\n"
         . "<div style=\"text-align: center;\"><img src=\"$mapimage\" alt=\"\" title=\"" . printSecuTags($gameserver->mapname) . "\" /></div><br />\n"
@@ -266,9 +266,9 @@ function server($server_id) {
                 $pass = 'no';
             } else {
                 $pass = 'unknown';
-            } 
+            }
             echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . __('SERVER_PASSWORD') . " :</b></td><td>" . $pass . "</td></tr>\n";
-        } 
+        }
 
         echo "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _GAME . " :</b></td><td>" . printSecuTags($gameserver->gametype) . "</td></tr>\n"
         . "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _MAP . " :</b></td><td>" . printSecuTags($gameserver->mapname) . "</td></tr>\n"
@@ -276,14 +276,14 @@ function server($server_id) {
 
         if (!count($gameserver->rules)) {
             echo "<option>No rules</option>\n";
-        } 
+        }
 
         foreach($gameserver->rules as $key => $value) {
             if (empty($value)) {
                 $value = "&nbsp;";
-            } 
+            }
             echo "<option>" . $key . " : " . $value . "</option>\n";
-        } 
+        }
 
         echo "</select></td></tr></table><br />\n";
 
@@ -292,25 +292,25 @@ function server($server_id) {
                 if ($value && ($key == 'score' || $key == 'frags' || $key == 'deaths' || $key == 'honor')) {
                     $sortby = $key;
                     break;
-                } 
-            } 
+                }
+            }
             if (!$sortby) {
                 $sortby = 'name';
-            } 
-        } 
+            }
+        }
 
         if ($gameserver->playerkeys['team']) {
             $i = 0;
             foreach($gameserver->players as $player) {
                 $teams[$player['team']][$i++] = $player;
-            } 
+            }
             if (count($teams) == 2) {
                 $i = 0;
                 foreach ($teams as $team) {
                     if (count($team)) {
                         $sortedteams[$i++] = $gameserver->sortPlayers($team, $sortby);
-                    } 
-                } 
+                    }
+                }
 
                 echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><b>" . ucfirst($gameserver->playerteams[0]) . "</b></td>\n"
@@ -320,15 +320,15 @@ function server($server_id) {
             }  else {
                 $players = $gameserver->sortPlayers($gameserver->players, $sortby);
                 echo listPlayers($server_id, $address, $port, $game, $password, $players, $gameserver->playerkeys, $sortby);
-            } 
+            }
         } else {
             $players = $gameserver->sortPlayers($gameserver->players, $sortby);
             echo listPlayers($server_id, $address, $port, $game, $password, $players, $gameserver->playerkeys, $sortby);
-        } 
+        }
 
         echo "<br />\n";
-    } 
-} 
+    }
+}
 
 function listPlayers($server_id, $address, $port, $game, $password, $players, $keys, $cursort = 'name', $summary = false, $emptylines = 0) {
     global $bgcolor1, $bgcolor2, $bgcolor3;
@@ -340,40 +340,40 @@ function listPlayers($server_id, $address, $port, $game, $password, $players, $k
             $result .= "<td>&nbsp;&nbsp;<b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=name\" style=\"text-decoration: underline\">" . _NICK . "</a></b></td>\n";
         } else {
             $result .= "<td>&nbsp;&nbsp;<b>" . _NICK . "</b></td>\n";
-        } 
+        }
 
         if ($keys['score']) {
             if ($cursort != 'score') {
                 $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=score\" style=\"text-decoration: underline\">" . _SSCORE . "</a></b></td>\n";
             } else {
                 $result .= "<td><b>" . _SSCORE . "</b></td>\n";
-            } 
-        } 
+            }
+        }
 
         if ($keys['honor']) {
             if ($cursort != 'honor') {
                 $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=honor\" style=\"text-decoration: underline\">" . _HONOR . "</a></b></td>\n";
             } else {
                 $result .= "<td><b>" . _HONOR . "</b></td>\n";
-            } 
-        } 
+            }
+        }
         if ($keys['frags']) {
             if ($cursort != 'frags') {
                 $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=frags\" style=\"text-decoration: underline\">" . _FRAG . "</a></b></td>\n";
             } else {
                 $result .= "<td><b>" . _FRAG . "</b></td>\n";
-            } 
-        } 
+            }
+        }
         if ($keys['deaths']) {
             if ($cursort != 'deaths') {
                 $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=deaths\" style=\"text-decoration: underline\">" . _DEATHS . "</a></b></td>\n";
             } else {
                 $result .= "<td><b>" . _DEATHS . "</b></td>\n";
-            } 
-        } 
+            }
+        }
         if ($keys['ping']) {
             $result .= "<td><b>" . _PING . "</b></td>\n";
-        } 
+        }
         $result .= "</tr>";
 
         foreach ($players as $player) {
@@ -383,61 +383,61 @@ function listPlayers($server_id, $address, $port, $game, $password, $players, $k
             } else {
                 $bg = $bgcolor1;
                 $j = 0;
-            } 
+            }
 
             if ($player['name']) {
                 $result .= "<tr style=\"background: ". $bg . "\"><td>" . printSecuTags($player['name']) . "</td>\n";
                 if ($keys['score']) {
                     $result .= "<td>" . printSecuTags($player['score']) . "</td>\n";
                     $sumscore += $player['score'];
-                } 
+                }
                 if ($keys['honor']) {
                     $result .= "<td>" . printSecuTags($player['honor']) . "</td>\n";
                     $sumhonor += $player['honor'];
-                } 
+                }
                 if ($keys['frags']) {
                     $result .= "<td>" . printSecuTags($player['frags']) . "</td>\n";
                     $sumfrags += $player['frags'];
-                } 
+                }
                 if ($keys['deaths']) {
                     $result .= "<td>" . printSecuTags($player['deaths']) . "</td>\n";
                     $sumdeaths += $player['deaths'];
-                } 
+                }
                 if ($keys['ping']) {
                     $result .= "<td>" . printSecuTags($player['ping']) . "</td>\n";
-                } 
+                }
                 $result .= "</tr>\n";
-            } 
-        } 
+            }
+        }
         for($i = 0;$i < $emptylines;$i++) {
             $result .= "<tr></tr>\n";
-        } 
+        }
         $result .= "</table>\n";
     } else {
         $result = "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"350\" cellpadding=\"2\" cellspacing=\"1\">\n"
         . "<tr style=\"background: ". $bgcolor3 . "\"><td>&nbsp;&nbsp;<b>" . _NICK . "</b></td><td><b>" . _SSCORE . "</b></td></tr>\n"
         . "<tr><td colspan=\"2\" align=\"center\">" . _NOPLAYERS . "</td></tr></table>\n";
-    } 
+    }
     return $result;
-} 
+}
 
 function queryServer($address, $port, $protocol) {
     include 'modules/Server/includes/gsQuery.php';
 
     if (!$address && !$port && !$protocol) {
         return false;
-    } 
+    }
 
     $gameserver = gsQuery::createInstance($protocol, $address, $port);
     if (!$gameserver) {
         return false;
-    } 
+    }
 
     if (!$gameserver->query_server(true, true)) {
         return false;
-    } 
+    }
     return $gameserver;
-} 
+}
 
 switch ($GLOBALS['op']) {
     case 'index':

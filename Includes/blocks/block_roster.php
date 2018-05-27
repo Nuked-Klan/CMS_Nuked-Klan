@@ -1,13 +1,13 @@
-<?php 
+<?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
 if (preg_match("`block_roster.php`i", $_SERVER['PHP_SELF'])){
     die ("You cannot open this page directly");
-} 
+}
 
 function affich_block_roster($blok){
     global $nuked, $theme;
@@ -21,9 +21,9 @@ function affich_block_roster($blok){
     else{
 		$sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
 		$nb_team = nkDB_numRows($sql_team);
-		
-		if ($nb_team > 0) $where = 'WHERE team > 0 OR team2 > 0 OR team3 > 0'; 
-		else $where = 'WHERE niveau > 1'; 
+
+		if ($nb_team > 0) $where = 'WHERE team > 0 OR team2 > 0 OR team3 > 0';
+		else $where = 'WHERE niveau > 1';
     }
 
     $blok['content'] .= '<table style="width:100%;" cellspacing="0" cellpadding="1">'."\n";
@@ -36,26 +36,26 @@ function affich_block_roster($blok){
 
         if (is_file('themes/' . $theme . '/images/mail.gif')){
             $img = 'themes/' . $theme . '/images/mail.gif';
-        } 
+        }
         else{
             $img = 'modules/Team/images/mail.gif';
-        } 
+        }
 
         $blok['content'] .= '<tr><td style="width: 20%;text-align:center;" ><img src="images/flags/' . $country . '" alt="" title="' . $pays . '" /></td>'."\n"
 								. '<td style="width: 60%;"><a href="index.php?file=Team&amp;op=detail&amp;autor=' . urlencode($pseudo) . '"><b>' . $nick_team . '</b></a></td>'."\n"
 								. '<td style="width: 20%;text-align:center;" ><a href="mailto:' . $mail . '"><img style="border: 0;" src="' . $img . '" alt="" title="' . $mail . '" /></a></td></tr>'."\n";
-	} 
+	}
 
     $blok['content'] .= '</table>'."\n";
     return $blok;
-} 
+}
 
 function edit_block_roster($bid){
     global $nuked, $language;
 
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
-    
+
     $titre = printSecuTags($titre);
 
     $checked0 = $checked1 = $checked2 = '';

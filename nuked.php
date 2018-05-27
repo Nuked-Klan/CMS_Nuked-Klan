@@ -5,7 +5,7 @@
  *
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -520,7 +520,7 @@ function nkHandle_bannedUser() {
     // Recherche d'un banissement
     $ban = nkDB_selectMany(
         'SELECT `id`, `pseudo`, `date`, `dure`
-        FROM '. BANNED_TABLE .' 
+        FROM '. BANNED_TABLE .'
         WHERE '. $where_query
     );
 
@@ -1295,7 +1295,7 @@ function __($str) {
  * Get translation of string
  *
  * @param string $str : The string to translate
- * @param int $n : The 
+ * @param int $n : The
  * @return string : Translation if it exists or if an empty string
  */
 function _n($str, $n = 1) {

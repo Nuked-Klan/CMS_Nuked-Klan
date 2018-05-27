@@ -88,7 +88,7 @@ INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `cont
 (8, 0, 0, 'Server', 'Serveur monitor', '', 'module', 0, 'Tous'),
 (9, 0, 0, '', 'Suggestion', '', 'suggest', 1, 'Tous'),
 (10, 0, 0, 'Textbox', 'Tribune libre', '', 'module', 0, 'Tous'),
-(11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous');
+(11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="https://nuked-klan.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous');
 
 -- --------------------------------------------------------
 
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
 --
 
 INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`) VALUES
-(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.8', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0);
+(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.8', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="https://nuked-klan.fr">https://nuked-klan.fr</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0);
 
 -- --------------------------------------------------------
 

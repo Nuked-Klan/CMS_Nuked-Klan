@@ -5,7 +5,7 @@
  * Frontend of Gallery module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -649,7 +649,7 @@ function classe()
         nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
         nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
         nkTemplate_addJS('Shadowbox.init();');
-        
+
         if(array_key_exists('p', $_REQUEST)){
             $page = $_REQUEST['p'];
         }

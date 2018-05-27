@@ -5,7 +5,7 @@
  * Backend of Admin module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -268,7 +268,7 @@ function edit_line($bid, $lid)
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
     . "<tr><td colspan=\"2\" width=\"20%\" ><h5>" . _TITLE . " :</h5></td><td><input type=\"text\" name=\"title\" value=\"" . $title . "\" size=\"40\" /></td></tr>\n"
-    . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"        
+    . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
     . "<tr><td colspan=\"3\"><h5>" . _STYLETITLE . " :</h5></td></tr>\n"
     . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _COLOR . " :</strong></td><td><input id=\"couleur\" class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $color . "\" /></td></tr>\n"
     . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _BOLD . " :</strong></td><td>\n";

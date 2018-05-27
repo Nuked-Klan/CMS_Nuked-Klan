@@ -3,11 +3,11 @@
  * design.php
  *
  * Old file with Admin design function.
- * Include since 1.7.9 RC1 
+ * Include since 1.7.9 RC1
  *
  * @deprecated
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */

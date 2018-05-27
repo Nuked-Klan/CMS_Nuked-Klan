@@ -5,7 +5,7 @@
  * Backend of Gallery module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -29,7 +29,7 @@ function add_screen()
     nkAdminMenu(2);
 
     echo "<form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=send_screen\" enctype=\"multipart/form-data\" onsubmit=\"backslash('img_texte');\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"	
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"44\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . "</b>: <select name=\"cat\">\n";
 

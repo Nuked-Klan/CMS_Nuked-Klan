@@ -5,7 +5,7 @@
  * Autoloading class for install / update process
  *
  * @version 1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -26,7 +26,7 @@ function processAutoload($className) {
             throw new Exception(__FUNCTION__ .' : Fichier '. $classFile .' de la classe '. $className .' n\'existe pas !');
         else
             throw new Exception(__FUNCTION__ .' : '. $classFile .' file of '. $className .' class don\'t exist !');
-            
+
 	}
 
     include_once $classFile;

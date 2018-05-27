@@ -5,7 +5,7 @@
  * Frontend of Textbox module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -163,7 +163,7 @@ function smilies() {
 
         echo "<tr><td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ', '')\" title=\"" . $name . "\">" . $code . "</a></td>\n"
         . "<td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ')\"><img style=\"border: 0;\" src=\"images/icones/" . $url . "\" alt=\"\" title=\"" . $name . "\" /></a></td></tr>\n";
-    } 
+    }
 
     echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
 }
@@ -220,7 +220,7 @@ function ajax() {
             )
                 $text[$i] = '<span title="' . $text[$i] . '">' . substr($text[$i], 0, $max_chars) . '...</span>';
 
-            $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', 'cesure_href', $text[$i]); 
+            $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', 'cesure_href', $text[$i]);
             $block_text .= $text[$i];
         }
 

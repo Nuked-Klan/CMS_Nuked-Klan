@@ -5,7 +5,7 @@
  * Frontend of Page module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -73,7 +73,7 @@ function index() {
                     else if (is_file("modules/Page/html/" . $url)) {
                         ob_start();
                         $html = eval(' include ("modules/Page/html/" . $url); ');
-                        $html = ob_get_contents(); 
+                        $html = ob_get_contents();
                         ob_end_clean();
 
                         if (stripos($html, '<body') !== false && stripos($html, '</body>') !== false) {

@@ -5,7 +5,7 @@
  * French translation file of Admin module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -422,10 +422,10 @@ define("_NOTIFICATIONNOTRECEIVED","La notification n'a pas été reçue.");
 # Page : A propos
 define('_INFOSPROPOS', '<h3>Informations générales :</h3>
 Version ' . $nuked['version'] . '<br />
-Développée par toute <a href="http://www.nuked-klan.org/index.php?file=Equipe">l\'équipe Nuked-KlaN</a><br /><br />
+Développée par toute <a href="https://nuked-klan.fr/index.php?file=Equipe">l\'équipe Nuked-KlaN</a><br /><br />
 
 <h3>Contact Nuked-KlaN :</h3>
-<a href="http://www.nuked-klan.org/index.php?file=Contact">Formulaire de contact</a><br /><br />
+<a href="https://nuked-klan.fr/index.php?file=Contact">Formulaire de contact</a><br /><br />
 
 <h3>Remerciements :</h3>
 A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de corriger rapidement les principaux bugs<br /><br /><br />

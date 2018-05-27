@@ -5,7 +5,7 @@
  * Backend of Suggest module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -36,7 +36,7 @@ function main(){
 
     $sql = nkDB_execute("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
     $count = nkDB_numRows($sql);
-    
+
     while (list($sug_id, $mod_name, $date, $id_user) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
 

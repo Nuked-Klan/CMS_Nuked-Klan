@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -40,7 +40,7 @@ function affich_block_event($blok){
         $year = $_REQUEST['ye'];
         $nextmonth = $_REQUEST['mo'] + 1;
         $prevmonth = $_REQUEST['mo']-1;
-		
+
         if ($nextmonth > 12){
             $nextmonth = 1;
             $nextyear = $year + 1;
@@ -204,15 +204,15 @@ function affich_block_event($blok){
 
                             if ($amois == $month && $ajour == $event_date){
                                 $age = $year - $aan;
-								
+
                                 if ($month < $amois){
                                     $age = $age - 1;
                                 }
-								
+
                                 if ($event_date < $ajour && $month == $amois){
                                     $age = $age-1;
                                 }
-								
+
                                 $sql5 = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $id_user . '\' ' . $and);
                                 list($pseudo) = nkDB_fetchArray($sql5);
 

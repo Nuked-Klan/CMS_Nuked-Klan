@@ -25,7 +25,7 @@
     <body>
         <div id="page">
             <div id="sidebar" >
-                <a href="http://www.nuked-klan.org">
+                <a href="https://nuked-klan.fr">
                     <img id="logo" src="../modules/Admin/images/logo.png" alt="Nuked-Klan" />
                 </a>
                 <div id="navigation" >

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -117,7 +117,7 @@ function affich_block_login($blok){
 			$sql5 = nkDB_execute('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
 			while (list($name) = nkDB_fetchArray($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
-			}	
+			}
 			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(nkDB_realEscapeString($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		} else{
 			$admin_list = '';

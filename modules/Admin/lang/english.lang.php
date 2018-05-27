@@ -5,7 +5,7 @@
  * English translation file of Admin module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -592,7 +592,7 @@ version ' . $nuked['version'] . '<br />
 Developed by Nuked-Klan Team<br /><br />
 
 <h3>Contact Nuked-Klan:</h3>
-<a href="http://www.nuked-klan.org/index.php?file=Contact">Contact form</a><br /><br />
+<a href="https://nuked-klan.fr/index.php?file=Contact">Contact form</a><br /><br />
 
 <h3>Acknowledgments:</h3>
 A whole team nuked-klan.org, and his community that has allowed us to quickly fix the main bugs<br /><br /><br />

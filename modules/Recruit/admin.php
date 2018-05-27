@@ -5,7 +5,7 @@
  * Backend of Recruit module
  *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -53,11 +53,11 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $game_name . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\">" . $mail . "</a></td>\n"
         . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td></tr>\n";
-    } 
+    }
     if ($count == 0)
     {
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NORECRUIT . "</td></tr>\n";
-    } 
+    }
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
@@ -70,11 +70,11 @@ function edit_pref()
     if ($nuked['recrute'] == 1)
     {
         $etat = _RECRUIT_OPEN;
-    } 
+    }
     else
     {
         $etat = _RECRUIT_CLOSE;
-    } 
+    }
 
     echo '<script type="text/javascript">
     function checkRecruitSetting(){
@@ -111,17 +111,17 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
         if ($nuked['recrute_inbox'] == $id_user)
         {
             $checked = "selected=\"selected\"";
-        } 
+        }
         else
         {
             $checked = "";
-        } 
+        }
 
         echo "<option value=\"" . $id_user . "\" " . $checked . ">" . $pseudo . "</option>\n";
-    } 
+    }
     echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
-    
+
 
     echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
 . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . __('BACK') . "</a></div>\n"

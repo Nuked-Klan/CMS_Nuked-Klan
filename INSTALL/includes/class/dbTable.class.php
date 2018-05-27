@@ -5,7 +5,7 @@
  * Manage database table for install / update process
  *
  * @version 1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -675,7 +675,7 @@ class dbTable {
             FROM `'. $this->_table .'`';
 
         if ($this->_session['nbTableEntries'] > self::NB_ENTRIES_BY_STEP) {
-            if (! isset($this->_session['offset'])) 
+            if (! isset($this->_session['offset']))
                 $this->_session['offset'] = 0;
             else
                 $this->_session['offset'] = $this->_session['offset'] + self::NB_ENTRIES_BY_STEP;

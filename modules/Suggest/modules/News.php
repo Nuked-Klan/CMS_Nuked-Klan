@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -68,9 +68,9 @@ function form($content, $sug_id){
     echo "</select></td></tr>\n"
             . "<tr><td><b>" . _TEXT . " :</b></td></tr>\n"
             . "<tr><td><textarea ";
-    
+
     echo $page == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo " name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n"
         . "<tr><td>&nbsp;\n";
 

@@ -1,9 +1,9 @@
 # Nuked-Klan
 
 **Nuked-Klan is CMS leader used to create a gamer website as simple as possible !**
-  
+
   Easy, modern, user friendly, and totally customizable, it offers many functionnalites for team gaming !
-  
+
   And cherry on the cake ? **It is free !**
 
 #####
@@ -39,7 +39,7 @@ For Nuked-Klan 1.8.x :
 ## Contribution
 
 Feel free to contribute to the greatest CMS already made, share your ideas, and help us to build a better CMS for all !
-- For more information [Nuked-Klan](http://www.nuked-klan.org)
+- For more information [Nuked-Klan](https://nuked-klan.fr)
 - For issues/bugs : https://github.com/Nuked-Klan/CMS_Nuked-Klan/issues
 
 Stay tuned on social medias : [@Twitter/Nuked-Klan](http://www.twitter.com/nukedklan) and [@Facebook/Nuked-Klan](https://www.facebook.com/pages/Nuked-Klan/184377914930941)

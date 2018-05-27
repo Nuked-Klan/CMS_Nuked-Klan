@@ -5,7 +5,7 @@
  * `[PREFIX]_block` database table script
  *
  * @version 1.8
- * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @link https://nuked-klan.fr Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
@@ -93,7 +93,7 @@ if ($process == 'install') {
         (8, 0, 0, \'Server\', \''. $this->_db->quote($this->_i18n['SERVER_MONITOR']) .'\', \'\', \'module\', 0, \'Tous\'),
         (9, 0, 0, \'\', \''. $this->_db->quote($this->_i18n['SUGGEST']) .'\', \'\', \'suggest\', 1, \'Tous\'),
         (10, 0, 0, \'Textbox\', \''. $this->_db->quote($this->_i18n['BLOCK_SHOUTBOX']) .'\', \'\', \'module\', 0, \'Tous\'),
-        (11, 1, 4, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. $this->_db->quote($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
+        (11, 1, 4, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="https://nuked-klan.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. $this->_db->quote($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
@@ -107,7 +107,7 @@ if ($process == 'update') {
     if (version_compare($this->_session['version'], '1.7.5', '<=')) {
         $sql = 'INSERT INTO `'. BLOCK_TABLE .'`
             (active, position, module, titre, content, type, nivo, page) VALUES
-            (1, 4, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. $this->_db->quote($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
+            (1, 4, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="https://nuked-klan.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. $this->_db->quote($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
 
         $dbTable->insertData(array('INSERT_BLOCK', $this->_i18n['BLOCK_PARTNERS']), $sql);
     }
