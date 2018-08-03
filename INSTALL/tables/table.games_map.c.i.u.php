@@ -67,10 +67,10 @@ if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExis
 
 if ($process == 'install') {
     $sql = 'INSERT INTO `'. GAMES_MAP_TABLE .'`
-        (`name`, `game`)
+        (`name`, `game`, `description`)
         VALUES
-        (\'de_dust2\', 1),
-        (\'de_inferno\', 1);';
+        (\'de_dust2\', 1, \'\'),
+        (\'de_inferno\', 1, \'\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
